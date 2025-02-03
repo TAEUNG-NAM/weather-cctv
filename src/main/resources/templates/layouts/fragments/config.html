@@ -1,0 +1,47 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:fragment="configFrag"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Narcy</title>
+
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/assets/img/favicons/apple-touch-icon.png}"/>
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/assets/img/favicons/favicon-32x32.png}"/>
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/img/favicons/favicon-16x16.png}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/img/favicons/favicon.ico}"/>
+    <link rel="manifest" th:href="@{/assets/img/favicons/manifest.json}">
+    <meta name="msapplication-TileImage" th:content="@{/assets/img/favicons/mstile-150x150.png}"/>
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- ===============================================-->
+    <!--    Stylesheets-->
+    <!-- ===============================================-->
+    <link  th:href="@{/assets/css/theme.css}" rel="stylesheet" />
+    <link th:href="@{/vendors/swiper/swiper-bundle.min.css}" rel="stylesheet">
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <script th:inline="javascript" type="text/javascript" th:src="@{/vendors/@popperjs/popper.min.js}" defer></script>
+    <script th:inline="javascript" type="text/javascript" th:src="@{/vendors/bootstrap/bootstrap.min.js}" defer></script>
+    <script th:inline="javascript" type="text/javascript" th:src="@{/vendors/is/is.min.js}" defer></script>
+    <script th:inline="javascript" type="text/javascript" th:src="@{/vendors/swiper/swiper-bundle.min.js}" defer> </script>
+<!--    <script th:src="@{https://polyfill.io/v3/polyfill.min.js?features=window.scroll}"></script>-->
+    <script th:inline="javascript" type="text/javascript" th:src="@{/vendors/fontawesome/all.min.js}" defer></script>
+    <script th:inline="javascript" type="text/javascript" th:src="@{/assets/js/theme.js}" defer></script>
+
+    <link th:href="@{https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&amp;display=swap}" rel="stylesheet">
+</head>
+</html>
