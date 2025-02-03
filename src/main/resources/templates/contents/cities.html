@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}"
+      layout:fragment="Content">
+
+  <body data-bs-spy="scroll" data-bs-target="#navbar">
+
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+
+      <!-- ============================================-->
+      <!-- <section> begin ============================-->
+      <section class="py-7">
+        <div class="container">
+          <div class="row h-100">
+            <div class="col-lg-7 mx-auto text-center mt-1">
+              <h1 class="text-center text-wrap lh-sm fs-lg-6 fs-xxl-7">일본</h1>
+            </div>
+
+            <div class="col-12">
+              <nav></nav>
+              <div class="nav nav-tabs clickr-tabs mb-4 justify-content-center" id="nav-tab" role="tablist">
+                <select class="form-select rounded-3 border-primary" aria-label="Default select example">
+                  <option th:each="city : ${cities}" th:value="${city.getName()}" th:text="${#strings.capitalize(city.getName())}" th:selected="${city.getName()} == ${selectedCity}">도시명</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="tab-content" id="nav-tabContent">
+              <div class="gx-3 accordion" id="accordionExample">
+
+                <div th:each="area : ${areas}" class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button th:text="${area.getName()}" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" th:data-bs-target="${'#collapse' + areaStat.count}" aria-expanded="false" th:aria-controls="${'collapse' + areaStat.count}">
+                      도시명
+                    </button>
+                  </h2>
+                  <div th:id="${'collapse' + areaStat.count}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-item">
+                      <iframe class="min-vh-50 w-100" th:src="@{|${area.getCctvSrc()}|}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                      <h6 class="text-center text-wrap py-1"><a class="text-decoration-underline text-primary" th:href="@{|${area.getMapSrc()}|}" target="_blank">구글맵으로 이동</a></h6>
+                    </div>
+                  </div>
+                </div>
+
+<!--                <div class="accordion-item">-->
+<!--                  <h2 class="accordion-header">-->
+<!--                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">-->
+<!--                      도톤보리2-->
+<!--                    </button>-->
+<!--                  </h2>-->
+<!--                  <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">-->
+<!--                    <div class="accordion-item">-->
+<!--                      <iframe class="min-vh-50 w-100" th:src="@{https://www.youtube.com/embed/Il2iG5Axehc?si=S0MC036s9ICJiLz3&amp;controls=0&autoplay=1&mute=1}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>-->
+<!--                      <h6 class="text-center text-wrap py-1"><a class="text-decoration-underline text-primary" th:href="@{https://maps.app.goo.gl/VgGGmVVcdPS2rZtA8}" target="_blank">구글맵으로 이동</a></h6>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+
+
+              </div>
+
+
+
+              <!-- <div class="tab-pane fade show active" id="nav-food" role="tabpanel" aria-labelledby="nav-food-tab">
+                <div class="row gx-3">
+                  <div class="country-imgs col-sm-6 col-md-4 mb-3 h-100">
+                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100 opacity-75" src="assets/img/gallery/asia-jp.png" alt="Japan" /><a class="stretched-link" href="#!"></a>
+                      <div class="card-img-overlay"><h1 class="card-title text-center text-white">일본</h1></div>
+                    </div>
+                  </div>
+                  <div class="country-imgs col-sm-6 col-md-4 mb-3 h-100">
+                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100 opacity-75" src="assets/img/gallery/asia-taiwan.png" alt="Japan" /><a class="stretched-link" href="#!"></a>
+                      <div class="card-img-overlay"><h1 class="card-title text-center text-white">대만</h1></div>
+                    </div>
+                  </div>
+                  <div class="country-imgs col-sm-6 col-md-4 mb-3 h-100">
+                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100" src="assets/img/gallery/food-3.png" alt="..." /><a class="stretched-link" href="#!"></a></div>
+                  </div>
+                  <div class="country-imgs col-sm-6 col-md-4 mb-3 h-100">
+                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100" src="assets/img/gallery/food-4.png" alt="..." /><a class="stretched-link" href="#!"></a></div>
+                  </div>
+                  <div class="country-imgs col-sm-6 col-md-4 mb-3 h-100">
+                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100" src="assets/img/gallery/food-5.png" alt="..." /><a class="stretched-link" href="#!"></a></div>
+                  </div>
+                  <div class="country-imgs col-sm-6 col-md-4 mb-3 h-100">
+                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100" src="assets/img/gallery/food-6.png" alt="..." /><a class="stretched-link" href="#!"></a></div>
+                  </div>
+                </div>
+              </div> -->
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+  </body>
+
+</html>
