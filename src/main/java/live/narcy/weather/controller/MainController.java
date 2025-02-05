@@ -23,7 +23,7 @@ public class MainController {
 
     private final CityService cityService;
 
-    @GetMapping("/home")
+    @GetMapping({"/", "/home"})
     public String home(Model model) {
 
         List<City> cities = cityService.getCityList("japan");
@@ -62,8 +62,9 @@ public class MainController {
 //        }
 
         log.info("국가명 = {}", countryName);
+        model.addAttribute("countryName", countryName);
         log.info("도시명 = {}", cityName);
-
+        model.addAttribute("Hello", "hello");
         return "contents/cities";
     }
 
