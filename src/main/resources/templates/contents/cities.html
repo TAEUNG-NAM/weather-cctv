@@ -34,13 +34,13 @@
 
                 <div th:each="area : ${areas}" class="accordion-item">
                   <h2 class="accordion-header">
-                    <button th:text="${area.getName()}" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" th:data-bs-target="${'#collapse' + areaStat.count}" aria-expanded="false" th:aria-controls="${'collapse' + areaStat.count}">
+                    <button th:text="${area.getName()}" th:onclick="|playVideo(this)|" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" th:data-bs-target="${'#collapse' + areaStat.count}" aria-expanded="false" th:aria-controls="${'collapse' + areaStat.count}">
                       도시명
                     </button>
                   </h2>
                   <div th:id="${'collapse' + areaStat.count}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-item">
-                      <iframe class="min-vh-50 w-100" th:src="@{|${area.getCctvSrc()}|}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                      <iframe class="min-vh-50 w-100" th:src="@{'https://www.youtube.com/embed/' + ${area.getCctvSrc()}(controls=0, autoplay=0, mute=1, rel=0, enablejsapi=1)}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                       <h6 class="text-center text-wrap py-1"><a class="text-decoration-underline text-primary" th:href="@{|${area.getMapSrc()}|}" target="_blank">구글맵으로 이동</a></h6>
                     </div>
                   </div>
