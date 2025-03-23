@@ -20,6 +20,7 @@
               <h1 class="text-center text-wrap lh-sm fs-lg-6 fs-xxl-7">일본</h1>
             </div>
 
+            <!-- 도시 목록 -->
             <div class="col-12">
               <nav></nav>
               <div class="nav nav-tabs clickr-tabs mb-4 justify-content-center" id="nav-tab" role="tablist">
@@ -29,26 +30,52 @@
               </div>
             </div>
 
+            <!-- 장소별 영상 -->
             <div class="tab-content" id="nav-tabContent">
               <div class="gx-3 accordion" id="accordionExample">
 
                 <div th:each="area : ${areas}" class="accordion-item">
                   <h2 class="accordion-header">
-                    <button th:text="${area.getName()}" th:onclick="|playVideo(this)|" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" th:data-bs-target="${'#collapse' + areaStat.count}" aria-expanded="false" th:aria-controls="${'collapse' + areaStat.count}">
+                    <button th:text="${area.getName()}" th:onclick="|playVideo(this, ${areaStat.size})|" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" th:data-bs-target="${'#collapse' + areaStat.count}" aria-expanded="false" th:aria-controls="${'collapse' + areaStat.count}">
                       도시명
                     </button>
                   </h2>
                   <div th:id="${'collapse' + areaStat.count}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-item">
-                      <iframe class="min-vh-50 w-100" th:src="@{'https://www.youtube.com/embed/' + ${area.getCctvSrc()}(controls=0, autoplay=0, mute=1, rel=0, enablejsapi=1)}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                      <iframe class="min-vh-50 w-100" th:id="${'iframe-' + areaStat.count}" th:src="@{'https://www.youtube.com/embed/' + ${area.getCctvSrc()}(rel=0, controls=0, autoplay=0, mute=1, enablejsapi=1)}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                       <h6 class="text-center text-wrap py-1"><a class="text-decoration-underline text-primary" th:href="@{|${area.getMapSrc()}|}" target="_blank">구글맵으로 이동</a></h6>
                     </div>
                   </div>
                 </div>
-
               </div>
-
             </div>
+
+            <!-- 날씨 정보 -->
+            <div class="card-group my-5 text-center">
+              <th:block th:each="weatherEntry : ${weatherMap}">
+                <th:block th:if="${weatherEntry.key != 'now'}">
+                    <div class="card col-lg-2">
+                      <!--            <img th:src="${weather.iconSrc}" class="card-img-top w-25" alt="...">-->
+                      <div class="card-header">
+                        <h5 th:text="${#strings.replace(#strings.substring(weatherEntry.key, 5), '-', '.')}" class="card-title my-auto"></h5>
+                      </div>
+                      <th:block th:each="weather : ${weatherEntry.value}">
+                        <div class="card-body">
+                          <div style="display: block;">
+                            <span th:text="${#strings.setSplit(weather.date, 'T')[1]}" class="card-text"><small class="text-muted"></small></span>
+<!--                            <span th:text="${weather.description}" class="card-text"></span>-->
+                          </div>
+                          <img th:src="|http://openweathermap.org/img/wn/${weather.icon}@2x.png|" class="card-img-top w-25" alt="weather-icon">
+                          <span th:text="${weather.temp}+℃" class="card-text"></span>
+                          <hr>
+                          <!--                <p th:text="${weatherEntry.value.description}" class="card-text"></p>-->
+                        </div>
+                      </th:block>
+                    </div>
+                </th:block>
+              </th:block>
+            </div>
+
           </div>
         </div>
       </section>
