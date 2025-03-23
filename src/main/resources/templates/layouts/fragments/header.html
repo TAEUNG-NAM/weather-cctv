@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
       th:fragment="headerFrag">
 
 <!-- Nav Bar -->
@@ -8,13 +8,13 @@
         <button class="navbar-toggler collapsed rounded-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" data-bs-auto-close="true" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fas fa-search fs-2" style="color: #818283;"></i></button>
         <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item px-2"><a class="nav-link fw-bold" href="#howitworks">올해의 도시 <i class="fas fa-trophy" style="color: #ffc800;"></i></a></li>
+                <li class="nav-item px-2"><a class="nav-link fw-bold" href="/best-city">올해의 도시 <i class="fas fa-trophy" style="color: #ffc800;"></i></a></li>
                 <li class="nav-item px-2"><a class="nav-link fw-bold" href="#services">월별 추천 여행지</a></li>
                 <li class="nav-item px-2"><a class="nav-link fw-bold" href="#packages">도시별 조회수</a></li>
                 <li class="nav-item px-2"><a class="nav-link fw-bold" href="#faqs">FAQs </a></li>
             </ul>
-            <form class="d-flex ms-lg-5" role="search">
-                <input class="form-control me-2" type="search" placeholder="도시명 입력" aria-label="Search">
+            <form sec:authorize="isAuthenticated()" th:action="@{/searchCity}" th:onsubmit="return validForm()" method="get" class="d-flex ms-lg-5" role="search">
+                <input class="form-control me-2" id="searchInput" type="search" placeholder="도시명 입력" aria-label="Search" name="searchedCity">
                 <button class="btn btn-outline-primary" style="width: 6rem" type="submit">검색</button>
             </form>
             <!-- <form class="ms-lg-5"><a class="btn btn-primary" href="#!">Get started</a></form> -->

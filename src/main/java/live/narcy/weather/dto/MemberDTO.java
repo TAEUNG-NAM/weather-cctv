@@ -1,20 +1,30 @@
 package live.narcy.weather.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import live.narcy.weather.entity.Member;
+import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Getter
+@Setter
 @ToString
+@NoArgsConstructor
 public class MemberDTO {
-    private Long id;
     private String email;
-    private String role;
+    private String password;
+    private String role = "ROLE_USER";
 
     @Builder
-    public MemberDTO(Long id, String email, String role) {
-        this.id = id;
+    public MemberDTO(String email, String password, String role) {
         this.email = email;
+        this.password = password;
         this.role = role;
+    }
+
+    public static Member toMember(MemberDTO memberDTO, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        return Member.builder()
+                .email(memberDTO.email)
+                .password(bCryptPasswordEncoder.encode(memberDTO.getPassword()))
+                .role(memberDTO.role)
+                .build();
     }
 }

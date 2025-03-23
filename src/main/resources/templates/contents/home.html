@@ -86,7 +86,7 @@
               <div class="tab-pane fade show active" id="nav-food" role="tabpanel" aria-labelledby="nav-food-tab">
                 <div class="row gx-3">
                   <div th:each="city : ${cities}" class="country-imgs col-sm-6 col-md-4 mb-3 h-100">
-                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100 opacity-100" th:src="@{|/assets/img/gallery/jp-${city.getName()}.png|}" alt="Japan" /><a class="stretched-link" th:href="@{|${city.getCountry()}?city=${city.getName()}|}" ></a>
+                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100 opacity-100" th:src="@{|/assets/img/gallery/jp-${city.getName()}.png|}" alt="Japan" /><a class="stretched-link" th:href="@{|view/${city.getCountry()}?city=${city.getName()}|}" ></a>
                       <div class="card-img-overlay"><h1 th:text="${#strings.capitalize(city.getName())}" class="card-title text-center text-white">도시명</h1></div>
                     </div>
                   </div>

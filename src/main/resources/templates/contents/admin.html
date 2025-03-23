@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}"
+      layout:fragment="Content">
+
+<body data-bs-spy="scroll" data-bs-target="#navbar">
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+<main class="main" id="top">
+
+    <!-- ============================================-->
+    <!-- <section> begin ============================-->
+    <section class="py-7">
+        <div class="container">
+
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">Charts</h1>
+            <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
+                The charts below have been customized - for further customization options, please visit the <a
+                        target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
+                    documentation</a>.</p>
+
+            <!-- Content Row -->
+            <div class="row">
+                <!-- Area Chart -->
+                <div class="col-xl-8 col-lg-7">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <h5 class="m-0 font-weight-bold text-primary">Views</h5>
+                            </div>
+                            <div class="d-flex">
+                                <select class="admin-select dropdown" id="slt-year">
+                                    <option value="0">연도</option>
+                                    <option>2025</option>
+                                </select>
+                                <select class="admin-select mx-1" id="slt-country">
+                                    <option value="0">국가</option>
+                                    <option>일본</option>
+                                    <option>필리핀</option>
+                                    <option>네덜란드</option>
+                                    <option>나이지리아</option>
+                                    <option>사우디아라비아</option>
+                                </select>
+                                <select class="admin-select" id="slt-city" disabled>
+                                    <option value="0">전체</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-area">
+                                <canvas id="myAreaChart" style="height: 29vh;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Donut Chart -->
+                <div class="col-xl-4 col-lg-5">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h5 class="m-0 font-weight-bold text-primary">Donut Chart</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-pie py-4">
+                                <canvas id="myPieChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- City CCTV Data -->
+                <div class="col-xl-12">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h5 class="m-0 font-weight-bold text-primary">City CCTV Data</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="m-0 font-weight-bold text-primary">City CCTV Data Table</h6>
+                            <form id="dataForm">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>CCTV Source</th>
+                                        <th>Map Source</th>
+                                        <th>City ID</th>
+                                        <th>Delete (YN)</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="data-table-body">
+                                    <!-- Data rows will be dynamically added here -->
+                                    </tbody>
+                                </table>
+
+                                <!-- Save Button -->
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </section>
+
+</main>
+<!-- ===============================================-->
+<!--    End of Main Content-->
+<!-- ===============================================-->
+
+<!-- Page level plugins -->
+<script th:src="@{/js/chart/Chart.min.js}" defer></script>
+
+<!-- Page level custom scripts -->
+<script th:src="@{/js/chart/chart-area-demo.js}" defer></script>
+<script th:src="@{/js/chart/chart-pie-demo.js}" defer></script>
+<script th:src="@{/js/chart/chart-bar-demo.js}" defer></script>
+
+<script th:inline="javascript" type="text/javascript" th:src="@{/js/chart/chart-func.js}" defer></script>
+</body>
+
+
+</html>
