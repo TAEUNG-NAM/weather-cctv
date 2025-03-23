@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}"
+      layout:fragment="Content" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<main class="flex-grow-1 d-flex align-items-center">
+    <section class="w-100">
+        <div class="container">
+            <div class="d-flex flex-column align-items-center">
+                <a th:href="@{/oauth2/authorization/kakao}" class="mb-3">
+                    <img th:src="@{/assets/img/favicons/kakao_login_btn.png}" alt="Kakao Login" class="img-fluid" style="max-width: 300px;">
+                </a>
+                <a th:href="@{/oauth2/authorization/naver}" class="mb-3">
+                    <img th:src="@{/assets/img/favicons/naver_login_btn.png}" alt="Naver Login" class="img-fluid" style="max-width: 300px;">
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+
+
+
+
+</html>

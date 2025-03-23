@@ -47,4 +47,9 @@ public class CustomOAuth2User implements OAuth2User {
     public String getUsername() {
         return oAuth2Response.getProvider() + "_" + oAuth2Response.getProviderId();     // ex) naver_20172088
     }
+
+    // 사용자 Email
+    public String getEmail() {
+        return oAuth2Response.getEmail();
+    }
 }

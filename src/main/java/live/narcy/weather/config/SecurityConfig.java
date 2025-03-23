@@ -27,7 +27,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                .requestMatchers("/assets/**", "/js/**", "/vendors/**");
+                .requestMatchers("/assets/**", "/js/**", "/vendors/**", "/error/**");
     }
 
     // 암호화 클래스
@@ -49,7 +49,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/home", "/login/**", "/join", "/joinProc", "/oauth2/**").permitAll()
-                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/city/admin").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
 
@@ -62,6 +62,7 @@ public class SecurityConfig {
         // OAuth2 설정
         http
                 .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")
                         .clientRegistrationRepository(clientRegistrationRepository.clientRegistrationRepository())  // class 방식을 통한 OAuth2 설정
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig  // User정보 받을 EndPoint설정
                                 .userService(customOAuth2UserService)));

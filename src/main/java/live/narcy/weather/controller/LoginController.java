@@ -18,6 +18,11 @@ import java.util.Iterator;
 @Controller
 public class LoginController {
 
+    /**
+     * 로그인
+     * @param model
+     * @return
+     */
     @GetMapping("/login")
     public String loginPage(Model model) {
 
@@ -39,12 +44,12 @@ public class LoginController {
         return "contents/login";
     }
 
-    @GetMapping("/admin")
-    @ResponseBody
-    public String adminPage() {
-        return "ADMIN PAGE";
-    }
-
+    /**
+     * 로그아웃
+     * @param request
+     * @param response
+     * @return
+     */
     @GetMapping("/logout")
     public String logoutProcess(HttpServletRequest request, HttpServletResponse response) {
 

@@ -53,6 +53,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         } else {
             System.out.println("이미 가입한 회원");
             System.out.println("Email: " + oAuth2Response.getEmail() + "Role: " + findMember.getRole());
+            role = findMember.getRole();
         }
 
         return new CustomOAuth2User(oAuth2Response, role);
