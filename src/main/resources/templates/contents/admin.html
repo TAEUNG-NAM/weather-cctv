@@ -15,54 +15,54 @@
     <!-- <section> begin ============================-->
     <section class="py-7">
         <div class="container">
-
-            <!-- Page Heading -->
-            <h1 class="h3 mb-2 text-gray-800">Charts</h1>
-            <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
-                The charts below have been customized - for further customization options, please visit the <a
-                        target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
-                    documentation</a>.</p>
-
+            <div class="btn-group btn-group-sm me-2" role="group" aria-label="First group">
+                <button type="button" class="btn btn-outline-secondary active">구역 관리</button>
+                <button type="button" class="btn btn-outline-secondary">도시 관리</button>
+            </div>
             <!-- Content Row -->
+            <hr class="m-0">
             <div class="row">
                 <!-- Area Chart -->
-                <div class="col-xl-8 col-lg-7">
+                <div class="col-xl-8 col-lg-7 chart-container">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <h5 class="m-0 font-weight-bold text-primary">Views</h5>
-                            </div>
-                            <div class="d-flex">
-                                <select class="admin-select dropdown" id="slt-year">
-                                    <option value="0">연도</option>
-                                    <option>2025</option>
-                                </select>
-                                <select class="admin-select mx-1" id="slt-country">
-                                    <option value="0">국가</option>
-                                    <option>일본</option>
-                                    <option>필리핀</option>
-                                    <option>네덜란드</option>
-                                    <option>나이지리아</option>
-                                    <option>사우디아라비아</option>
-                                </select>
-                                <select class="admin-select" id="slt-city" disabled>
-                                    <option value="0">전체</option>
-                                </select>
+                        <div class="card-header py-3">
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                                <div class="d-flex align-items-center mb-2 mb-md-0">
+                                    <h5 class="m-0 font-weight-bold text-primary">조회수</h5>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <select class="admin-select dropdown" id="slt-year">
+                                        <option value="year">연도</option>
+                                        <option th:each="y : ${years}" th:text="${y}"></option>
+                                    </select>
+                                    <select class="admin-select mx-1" id="slt-country">
+                                        <option value="country">국가</option>
+                                        <option value="japan">일본</option>
+                                        <option>필리핀</option>
+                                        <option>네덜란드</option>
+                                        <option>나이지리아</option>
+                                        <option>사우디아라비아</option>
+                                    </select>
+                                    <select class="admin-select" id="slt-city" disabled>
+                                        <option value="total">전체</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
+
                         <div class="card-body">
                             <div class="chart-area">
-                                <canvas id="myAreaChart" style="height: 29vh;"></canvas>
+                                <canvas id="myAreaChart"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Donut Chart -->
-                <div class="col-xl-4 col-lg-5">
+                <div class="col-xl-4 col-lg-5 chart-container">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h5 class="m-0 font-weight-bold text-primary">Donut Chart</h5>
+                            <h5 class="m-0 font-weight-bold text-primary">도시별 조회수 비율</h5>
                         </div>
                         <div class="card-body">
                             <div class="chart-pie py-4">
@@ -73,43 +73,36 @@
                 </div>
             </div>
 
+            <!-- CCTV 정보 불러오기 및 수정하기 -->
             <div class="row">
-                <!-- City CCTV Data -->
                 <div class="col-xl-12">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h5 class="m-0 font-weight-bold text-primary">City CCTV Data</h5>
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="m-0 font-weight-bold text-primary">CCTV Info 관리</h5>
+                            <button type="button" class="btn btn-success btn-sm" id="addRowBtn" disabled>+ Add New</button>
                         </div>
                         <div class="card-body">
-                            <h6 class="m-0 font-weight-bold text-primary">City CCTV Data Table</h6>
                             <form id="dataForm">
                                 <table class="table table-bordered">
                                     <thead>
-                                    <tr>
+                                    <tr style="text-align: center;">
                                         <th>Name</th>
                                         <th>CCTV Source</th>
                                         <th>Map Source</th>
-                                        <th>City ID</th>
-                                        <th>Delete (YN)</th>
-                                        <th>Actions</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody id="data-table-body">
-                                    <!-- Data rows will be dynamically added here -->
+                                    <!-- 기존 행 + 추가된 행 삽입 -->
+
                                     </tbody>
                                 </table>
-
-                                <!-- Save Button -->
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <button id="saveCctvDataBtn" type="submit" class="btn btn-outline-primary btn-sm save-btn" style="float: right; display: none" disabled>모두 저장</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
     </section>
 
@@ -124,9 +117,10 @@
 <!-- Page level custom scripts -->
 <script th:src="@{/js/chart/chart-area-demo.js}" defer></script>
 <script th:src="@{/js/chart/chart-pie-demo.js}" defer></script>
-<script th:src="@{/js/chart/chart-bar-demo.js}" defer></script>
+<!--<script th:src="@{/js/chart/chart-bar-demo.js}" defer></script>-->
+<script th:src="@{/js/areaInfoList.js}" defer></script>
 
-<script th:inline="javascript" type="text/javascript" th:src="@{/js/chart/chart-func.js}" defer></script>
+<script th:inline="javascript" type="text/javascript" th:src="@{/js/chart-func.js}" defer></script>
 </body>
 
 

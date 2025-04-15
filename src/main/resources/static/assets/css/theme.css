@@ -2804,6 +2804,41 @@ textarea.form-control-lg {
   appearance: none;
 }
 
+@media (max-width: 768px) {
+  .card-header .d-flex.flex-md-row {
+    flex-direction: column; /* 모바일 화면에서는 세로 배치 */
+  }
+
+  .card-header .d-flex.flex-md-row > div {
+    margin-bottom: 10px; /* 요소 간 간격 추가 */
+  }
+
+  .card-header .d-flex.flex-md-row > div:last-child {
+    margin-bottom: 0; /* 마지막 요소는 간격 제거 */
+  }
+}
+
+/* Area, Donut 차트 높이 설정 */
+.chart-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-container .card {
+  height: 100%; /* 부모 컨테이너에 맞게 늘어남 */
+}
+
+.chart-area canvas,
+.chart-pie canvas {
+  width: 100% !important;
+  height: auto !important; /* 비율 유지 */
+}
+
+.chart-area,
+.chart-pie {
+  max-height: 30vh; /* 최대 높이를 제한 */
+  /*overflow: hidden; !* 넘치는 부분은 숨김 *!*/
+}
 
 .form-select {
   display: block;
