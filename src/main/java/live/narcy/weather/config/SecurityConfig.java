@@ -1,13 +1,12 @@
 package live.narcy.weather.config;
 
 import live.narcy.weather.oauth2.CstmClientRegistrationRepository;
-import live.narcy.weather.service.CustomOAuth2UserService;
+import live.narcy.weather.member.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -49,7 +48,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/home", "/login/**", "/join", "/joinProc", "/oauth2/**").permitAll()
-                        .requestMatchers("/city/admin").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
 

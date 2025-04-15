@@ -24,7 +24,7 @@
             <div class="col-12">
               <nav></nav>
               <div class="nav nav-tabs clickr-tabs mb-4 justify-content-center" id="nav-tab" role="tablist">
-                <select th:onchange="|location.href='@{/japan?city=}'+this.value|" class="form-select rounded-3 border-primary" aria-label="Default select example">
+                <select th:onchange="|location.href='@{/view/japan?city=}'+this.value|" class="form-select rounded-3 border-primary" aria-label="Default select example">
                   <option th:each="city : ${cities}" th:value="${city.getName()}" th:text="${#strings.capitalize(city.getName())}" th:selected="${city.getName()} == ${selectedCity}">도시명</option>
                 </select>
               </div>
