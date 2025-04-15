@@ -1,9 +1,9 @@
-package live.narcy.weather.service;
+package live.narcy.weather.city.service;
 
-import live.narcy.weather.entity.Area;
-import live.narcy.weather.entity.City;
-import live.narcy.weather.repository.AreaRepository;
-import live.narcy.weather.repository.CityRepository;
+import live.narcy.weather.city.entity.Area;
+import live.narcy.weather.city.entity.City;
+import live.narcy.weather.city.repository.AreaRepository;
+import live.narcy.weather.city.repository.CityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

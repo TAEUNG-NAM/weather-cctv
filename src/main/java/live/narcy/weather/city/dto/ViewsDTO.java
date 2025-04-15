@@ -1,6 +1,5 @@
-package live.narcy.weather.dto;
+package live.narcy.weather.city.dto;
 
-import live.narcy.weather.entity.Views;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
-package live.narcy.weather.dto;
+package live.narcy.weather.member.dto;
 
-import live.narcy.weather.entity.Member;
+import live.narcy.weather.member.entity.Member;
 import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

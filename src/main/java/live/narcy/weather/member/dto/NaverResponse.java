@@ -1,4 +1,4 @@
-package live.narcy.weather.dto;
+package live.narcy.weather.member.dto;
 
 import java.util.Map;
 

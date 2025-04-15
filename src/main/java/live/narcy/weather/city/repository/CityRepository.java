@@ -1,6 +1,6 @@
-package live.narcy.weather.repository;
+package live.narcy.weather.city.repository;
 
-import live.narcy.weather.entity.City;
+import live.narcy.weather.city.entity.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +12,5 @@ public interface CityRepository extends JpaRepository<City, Long> {
     List<City> findAllByCountry(String country);
 
     City findByName(String name);
+
 }

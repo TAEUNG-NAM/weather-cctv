@@ -1,8 +1,8 @@
-package live.narcy.weather.service;
+package live.narcy.weather.member.service;
 
-import live.narcy.weather.dto.*;
-import live.narcy.weather.entity.Member;
-import live.narcy.weather.repository.MemberRepository;
+import live.narcy.weather.member.entity.Member;
+import live.narcy.weather.member.dto.*;
+import live.narcy.weather.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

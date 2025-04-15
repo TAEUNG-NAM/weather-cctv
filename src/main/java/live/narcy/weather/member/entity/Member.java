@@ -1,4 +1,4 @@
-package live.narcy.weather.entity;
+package live.narcy.weather.member.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
