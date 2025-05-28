@@ -4,6 +4,7 @@ import live.narcy.weather.member.entity.Member;
 import live.narcy.weather.member.dto.*;
 import live.narcy.weather.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final MemberRepository memberRepository;
@@ -20,7 +22,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User =  super.loadUser(userRequest);
-        System.out.println(oAuth2User.getAttributes());
+        log.info("oAuth2UserAttributes = {}", oAuth2User.getAttributes());
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
         OAuth2Response oAuth2Response = null;
@@ -50,9 +52,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             Member newMember = MemberDTO.toMember(memberDTO, new BCryptPasswordEncoder());
 
             memberRepository.save(newMember);
+            log.info("회원가입 = {}", memberDTO);
         } else {
-            System.out.println("이미 가입한 회원");
-            System.out.println("Email: " + oAuth2Response.getEmail() + "Role: " + findMember.getRole());
+            log.info("Email = {}\tRole = {}", oAuth2Response.getEmail(), findMember.getRole());
             role = findMember.getRole();
         }
 

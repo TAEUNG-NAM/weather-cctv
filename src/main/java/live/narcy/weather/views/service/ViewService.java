@@ -1,20 +1,20 @@
-package live.narcy.weather.city.service;
+package live.narcy.weather.views.service;
 
-import live.narcy.weather.city.dto.MonthlyViewCount;
-import live.narcy.weather.city.dto.MonthlyViewCountInterface;
-import live.narcy.weather.city.dto.YearlyCountryViewRatio;
-import live.narcy.weather.city.dto.YearlyCountryViewRatioInterface;
+import live.narcy.weather.views.dto.MonthlyViewCountInterface;
+import live.narcy.weather.views.dto.YearlyCountryViewRatio;
+import live.narcy.weather.views.dto.YearlyCountryViewRatioInterface;
 import live.narcy.weather.city.entity.City;
 import live.narcy.weather.member.entity.Member;
-import live.narcy.weather.city.entity.Views;
+import live.narcy.weather.views.entity.Views;
 import live.narcy.weather.city.repository.CityRepository;
 import live.narcy.weather.member.repository.MemberRepository;
-import live.narcy.weather.city.repository.ViewRepository;
+import live.narcy.weather.views.repository.ViewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +31,7 @@ public class ViewService {
      * @param email
      * @param city
      */
+    @Transactional
     public void increaseViewCount(String email, City city) {
 
         Member member = memberRepository.findByEmail(email);
@@ -74,22 +75,15 @@ public class ViewService {
             monthlyViewCountList = viewRepository.countMonthlyCityViewCounts(city.getId(), Integer.parseInt(year));
         }
 
-
-//        // 월별 조회수를 Map에 저장
-//        Map<Integer, Long> monthlyViewCount = new LinkedHashMap<>();
-//        for(int i = 1; i <= 12; i++) {
-//            monthlyViewCount.put(i, 0L);    // 조회수 기본값 0으로 초기화
-//        }
-//
-//        for(MonthlyViewCount row : monthlyViewCountList) {
-//            Integer month = row.getMonth();       // 월
-//            Long count = row.getViewCount();             // 조회수
-//            monthlyViewCount.put(month, count);
-//        }
-
         return monthlyViewCountList;
     }
 
+    /**
+     * 선택된 (Year, Country)의 조회수 조회(DonutChart)
+     * @param year
+     * @param country
+     * @return
+     */
     public List<YearlyCountryViewRatioInterface> getViewsRatio(String year, String country) {
 
         List<YearlyCountryViewRatioInterface> yearlyViewsRatioMap = viewRepository.countYearlyCountryViewRatio(country, Integer.parseInt(year));
@@ -97,4 +91,22 @@ public class ViewService {
         return yearlyViewsRatioMap;
     }
 
+
+    public Map<String, String> getTopCityViews() {
+        List<YearlyCountryViewRatioInterface> topViewCityList = viewRepository.countCityTopViewCounts();
+
+        Map<String, String> topViewCities = new HashMap<>();
+        topViewCities.forEach((k, v) -> {
+            System.out.println("k = " + k + "v = " + v);
+        });
+
+        for(int i=1; i <= topViewCityList.size(); i++) {
+            String[] cityName = topViewCityList.get(i-1).getCity().split("-");
+            topViewCities.put("topCity_"+i, cityName[0]);
+            topViewCities.put("topCityEng_"+i, cityName[1]);
+            topViewCities.put("topView_"+i, String.valueOf(topViewCityList.get(i-1).getViewCount()));
+        }
+
+        return topViewCities;
+    }
 }

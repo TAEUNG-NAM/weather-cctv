@@ -1,6 +1,7 @@
-package live.narcy.weather.city.entity;
+package live.narcy.weather.views.entity;
 
 import jakarta.persistence.*;
+import live.narcy.weather.city.entity.City;
 import live.narcy.weather.member.entity.Member;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public class Views {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
-    private live.narcy.weather.city.entity.City city;
+    private City city;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

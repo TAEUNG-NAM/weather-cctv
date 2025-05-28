@@ -61,15 +61,10 @@
         <div class="container">
           <div class="row h-100">
             <div class="col-lg-7 mx-auto text-center mb-5">
-              <!-- <h1 class="text-center lh-sm fs-lg-6 fs-xxl-7">Over 1,00,000 Photos Shot</h1> -->
               <h1 class="text-center text-wrap lh-sm fs-lg-6 fs-xxl-7">떠나고 싶은 그곳,</h1>
               <h1 class="text-center lh-sm fs-lg-6 fs-xxl-7">실시간으로 만나보세요!</h1>
-              <!-- <h1 class="text-center lh-sm fs-lg-6 fs-xxl-7">구경해 볼까요?</h1> -->
             </div>
-            <!-- <div class="input-group my-3">
-              <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-              <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
-            </div> -->
+
             <div class="col-12">
               <nav></nav>
               <div class="nav nav-tabs clickr-tabs mb-4 justify-content-center" id="nav-tab" role="tablist">
@@ -86,8 +81,8 @@
               <div class="tab-pane fade show active" id="nav-food" role="tabpanel" aria-labelledby="nav-food-tab">
                 <div class="row gx-3">
                   <div th:each="city : ${cities}" class="country-imgs col-sm-6 col-md-4 mb-3 h-100">
-                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100 opacity-100" th:src="@{|/assets/img/gallery/jp-${city.getName()}.png|}" alt="Japan" /><a class="stretched-link" th:href="@{|view/${city.getCountry()}?city=${city.getName()}|}" ></a>
-                      <div class="card-img-overlay"><h1 th:text="${#strings.capitalize(city.getName())}" class="card-title text-center text-white">도시명</h1></div>
+                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100 opacity-85" th:src="${city.getThumbnail()}" alt="Japan" /><a class="stretched-link" th:href="@{|view/${city.getCountry()}?city=${city.getName()}|}" ></a>
+                      <div class="card-img-overlay"><h1 th:text="${#strings.capitalize(city.getName())}" class="card-title text-center bg-gradient bg-opacity-30 text-white">도시명</h1></div>
                     </div>
                   </div>
                   <!-- <div class="col-12 d-flex justify-content-center mt-5"> <a class="btn btn-lg btn-outline-warning rounded-pill" href="#!">View portfolio<i class="fas fa-arrow-right ms-2"></i></a></div> -->
@@ -117,7 +112,6 @@
                   <div class="col-12 d-flex justify-content-center mt-5"> <a class="btn btn-lg btn-outline-warning rounded-pill" href="#!">View portfolio<i class="fas fa-arrow-right ms-2"></i></a></div>
                 </div>
               </div>
-
               <div class="tab-pane fade" id="nav-watches" role="tabpanel" aria-labelledby="nav-watches-tab">
                 <div class="row gx-3">
                   <div class="col-sm-6 col-md-4 mb-3 h-100">

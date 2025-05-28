@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}"
+      layout:fragment="Content">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<body class="bg-light" data-bs-spy="scroll" data-bs-target="#navbar">
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+
+    <!-- ============================================-->
+    <!-- <section> begin ============================-->
+    <div class="container py-8">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-6 col-12 mb-4 mb-lg-0">
+                <div class="card rank-card">
+                    <div class="rank-header">
+                        <span class="material-icons">leaderboard</span>
+                        <h1 class="fs-3 fw-bold mb-1 text-white">조회수 TOP 5</h1>
+                        <div class="fs-1">실시간 인기 도시를 확인해보세요</div>
+                    </div>
+                    <div class="card-body py-4 px-3">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-center" th:id="topCity_1" th:data-city="${topCityMap['topCityEng_1']}" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭" role="button">
+                            <span class="badge-rank badge-1 d-flex justify-content-center align-items-center">
+                                <span class="material-icons">emoji_events</span>
+                                <span class="visually-hidden">1위</span>
+                            </span>
+                                <span class="city-name flex-grow-1 fs-2" th:text="${topCityMap.containsKey('topCity_1') ? topCityMap['topCity_1'] : '집계 중..'}"></span>
+                                <span class="city-views fs-2" th:if="${topCityMap.containsKey('topCity_1')}" th:text="${#numbers.formatInteger(topCityMap.topView_1, 1, 'COMMA')} + 회"></span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center" id="topCity_2" th:data-city="${topCityMap['topCityEng_2']}" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭" role="button">
+                            <span class="badge-rank badge-2 d-flex justify-content-center align-items-center">
+                                <span class="material-icons">military_tech</span>
+                                <span class="visually-hidden">2위</span>
+                            </span>
+                                <span class="city-name flex-grow-1 fs-2" th:text="${topCityMap.containsKey('topCity_2') ? topCityMap['topCity_2'] : '집계 중..'}"></span>
+                                <span class="city-views fs-2" th:if="${topCityMap.containsKey('topCity_2')}" th:text="${#numbers.formatInteger(topCityMap.topView_2, 1, 'COMMA')} + 회"></span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center" id="topCity_3" th:data-city="${topCityMap['topCityEng_3']}" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭" role="button">
+                            <span class="badge-rank badge-3 d-flex justify-content-center align-items-center">
+                                <span class="material-icons">military_tech</span>
+                                <span class="visually-hidden">3위</span>
+                            </span>
+                                <span class="city-name flex-grow-1 fs-2" th:text="${topCityMap.containsKey('topCity_3') ? topCityMap['topCity_3'] : '집계 중..'}"></span>
+                                <span class="city-views fs-2" th:if="${topCityMap.containsKey('topCity_3')}" th:text="${#numbers.formatInteger(topCityMap.topView_3, 1, 'COMMA')} + 회"></span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center" id="topCity_4" th:data-city="${topCityMap['topCityEng_4']}" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭" role="button">
+                            <span class="badge-rank badge-default d-flex justify-content-center align-items-center">
+                                4
+                            </span>
+                                <span class="city-name flex-grow-1 fs-2" th:text="${topCityMap.containsKey('topCity_4') ? topCityMap['topCity_4'] : '집계 중..'}"></span>
+                                <span class="city-views fs-2" th:if="${topCityMap.containsKey('topCity_4')}" th:text="${#numbers.formatInteger(topCityMap.topView_4, 1, 'COMMA')} + 회"></span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center" id="topCity_5" th:data-city="${topCityMap['topCityEng_5']}" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭" role="button">
+                            <span class="badge-rank badge-default d-flex justify-content-center align-items-center">
+                                5
+                            </span>
+                                <span class="city-name flex-grow-1 fs-2" th:text="${topCityMap.containsKey('topCity_5') ? topCityMap['topCity_5'] : '집계 중..'}"></span>
+                                <span class="city-views fs-2" th:if="${topCityMap.containsKey('topCity_5')}" th:text="${#numbers.formatInteger(topCityMap.topView_5, 1, 'COMMA')} + 회"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="card site-card">
+                    <div class="card-header bg-success text-white text-center rounded-3 p-5">
+                        <span class="material-icons">restaurant</span>
+                        <span class="fs-3 fw-bold ms-2" id="siteTitle">맛집 둘러보기</span>
+                    </div>
+                    <div class="card-body">
+                        <ul class="site-list list-unstyled" id="siteList">
+                            <a id="a_michelin" href="" target="_blank">
+                                <li class="list-group-item d-flex align-items-center" role="button">
+                                        <span class="badge-rank badge-img d-flex justify-content-center align-items-center">
+                                            <img src="/assets/img/gallery/michelin.png" alt="미슐랭" />
+                                        </span>
+                                        <span class="city-name flex-grow-1 fs-2">미슐랭 맛집</span>
+                                </li>
+                            </a>
+                            <a id="a_tabelog" href="" target="_blank">
+                                <li class="list-group-item d-flex align-items-center" role="button">
+                                    <span class="badge-rank badge-img d-flex justify-content-center align-items-center">
+                                        <img src="/assets/img/gallery/tabelog.jpg" alt="타베로그" />
+                                    </span>
+                                    <span class="city-name flex-grow-1 fs-2">타베로그 맛집</span>
+                                </li>
+                            </a>
+                            <a id="a_googlemap" href="" target="_blank">
+                                <li class="list-group-item d-flex align-items-center" role="button">
+                                    <span class="badge-rank badge-img d-flex justify-content-center align-items-center">
+                                        <img src="/assets/img/gallery/googlemap.png" alt="구글맵" />
+                                    </span>
+                                    <span class="city-name flex-grow-1 fs-2">구글맵 맛집</span>
+                                </li>
+                            </a>
+                            <a id="a_cctv" href="" target="_blank">
+                                <li class="list-group-item d-flex align-items-center" role="button">
+                                    <span class="badge-rank badge-img d-flex justify-content-center align-items-center">
+                                        <img src="/assets/img/gallery/cctv_icon.png" alt="실시간뷰" />
+                                    </span>
+                                    <span class="city-name flex-grow-1 fs-2">실시간 뷰 보러가기</span>
+                                </li>
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 랭킹 li 클릭 시 border 스타일 적용
+            const cityItems = document.querySelectorAll('.list-group .list-group-item[role="button"]');
+            cityItems.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    const cityName = this.querySelector('.city-name').textContent.trim();
+                    if(cityName !== "집계 중..") {
+                        cityItems.forEach(function(li) {
+                            li.classList.remove('selected-city');
+                        });
+                        this.classList.add('selected-city');
+
+                        document.querySelector("#siteTitle").innerHTML = cityName + " 맛집";
+                    }
+                });
+            });
+
+            // Bootstrap Tooltip 활성화
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+
+            // 랭킹 li 클릭 시 맛집 링크 변경
+            // a 태그 id 목록
+            const siteLinks = {
+                michelin: document.querySelector("#a_michelin"),
+                tabelog: document.querySelector("#a_tabelog"),
+                googlemap: document.querySelector("#a_googlemap"),
+                cctv: document.querySelector("#a_cctv")
+            };
+
+            // li를 반복하며 이벤트 등록
+            cityItems.forEach(function(li) {
+                li.addEventListener('click', function() {
+                    const cityValue = this.dataset.city;
+                    if (!cityValue) return;
+
+                    siteLinks.michelin.href = "https://guide.michelin.com/kr/ko/" + cityValue + "-region/restaurants";
+                    siteLinks.tabelog.href = "https://tabelog.com/kr/" + cityValue;
+                    siteLinks.googlemap.href = "https://www.google.co.kr/maps/search/" + cityValue + "+restaurant";
+                    siteLinks.cctv.href = "/view/japan?city=" + cityValue;
+
+                });
+            });
+            document.querySelector("#topCity_1").click();
+
+        });
+
+    </script>
+
+
+<!-- ===============================================-->
+<!--    End of Main Content-->
+<!-- ===============================================-->
+
+</body>
+
+
+</html>

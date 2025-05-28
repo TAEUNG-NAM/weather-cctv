@@ -35,17 +35,12 @@ function checkAndGetViews() {
         // Year, Country 둘 다 선택된 경우에만 호출
         getViewsAreaData(yearValue, countryValue, cityValue);
         getViewsDonutData(yearValue, countryValue);
-        fetchCctvData(cityValue);   // 도시별 CCTV 정보(목록) 가져오기
+        getCctvData(cityValue);   // 도시별 CCTV 정보(목록) 가져오기
     }
 }
 
 /* AreaChart(Views) 조회 API 호출 */
 function getViewsAreaData (yearVal, countryVal, cityVal) {
-
-    console.log(sltYear.value);
-    console.log(sltCountry.value);
-    console.log(sltCity.value);
-
     const inData = {
         year: yearVal,
         country: countryVal,
@@ -53,7 +48,7 @@ function getViewsAreaData (yearVal, countryVal, cityVal) {
     }
 
     const param = new URLSearchParams(inData).toString();
-    const url = "/admin/api/city/area-chart?" + param;
+    const url = "/api/admin/area-chart/views?" + param;
     fetch(url, {
         method: "GET"
 
@@ -62,8 +57,8 @@ function getViewsAreaData (yearVal, countryVal, cityVal) {
         return response.json();
 
     }).then(jsonData => {
-        console.log(jsonData);
-        console.log(jsonData.cities);
+        // console.log(jsonData);
+        // console.log(jsonData.cities);
 
         myLineChart.data.labels = jsonData.labels;
         myLineChart.data.datasets[0].data = jsonData.data;
@@ -78,8 +73,8 @@ function getViewsAreaData (yearVal, countryVal, cityVal) {
 /* DonutChart(Views) 조회 API 호출 */
 function getViewsDonutData (yearVal, countryVal) {
 
-    console.log(sltYear.value);
-    console.log(sltCountry.value);
+    // console.log(sltYear.value);
+    // console.log(sltCountry.value);
 
     const inData = {
         year: yearVal,
@@ -87,7 +82,7 @@ function getViewsDonutData (yearVal, countryVal) {
     }
 
     const param = new URLSearchParams(inData).toString();
-    const url = "/admin/api/city/donut-chart?" + param;
+    const url = "/api/admin/donut-chart/views?" + param;
     fetch(url, {
         method: "GET"
 
@@ -96,8 +91,7 @@ function getViewsDonutData (yearVal, countryVal) {
         return response.json();
 
     }).then(jsonData => {
-        console.log(jsonData);
-
+        // console.log(jsonData);
         myPieChart.data.labels = jsonData.labels;
         myPieChart.data.datasets[0].data = jsonData.data;
         myPieChart.update();
@@ -116,7 +110,7 @@ function getCityList(countryVal) {
         country: countryVal
     }
     const param = new URLSearchParams(inData).toString();
-    const url = "/admin/api/city/list?" + param;
+    const url = "/api/admin/area-chart/city-list?" + param;
     fetch(url, {
         method: "GET"
 
@@ -130,7 +124,7 @@ function getCityList(countryVal) {
         defaultOption.value = "total";
         defaultOption.innerText = "전체";
         sltCity.append(defaultOption);
-        console.log("제이슨:" + JSON.stringify(jsonData));
+
         for(let i=0; i<jsonData.length; i++) {
             const option = document.createElement('option');
             option.innerText = jsonData[i].name;

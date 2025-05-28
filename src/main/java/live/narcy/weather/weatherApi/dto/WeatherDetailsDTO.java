@@ -1,4 +1,4 @@
-package live.narcy.weather.api.dto;
+package live.narcy.weather.weatherApi.dto;
 
 import lombok.Builder;
 import lombok.Getter;

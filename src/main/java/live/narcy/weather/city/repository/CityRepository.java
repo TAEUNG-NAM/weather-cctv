@@ -11,6 +11,10 @@ public interface CityRepository extends JpaRepository<City, Long> {
 
     List<City> findAllByCountry(String country);
 
+    List<City> findByCountryAndDelYn(String country, String delYn);
+
     City findByName(String name);
+
+    City findByKorName(String korName);
 
 }
