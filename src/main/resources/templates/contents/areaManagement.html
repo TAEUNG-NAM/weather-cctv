@@ -16,8 +16,8 @@
     <section class="py-7">
         <div class="container">
             <div class="btn-group btn-group-sm me-2" role="group" aria-label="First group">
-                <button type="button" class="btn btn-outline-secondary active">구역 관리</button>
-                <button type="button" class="btn btn-outline-secondary">도시 관리</button>
+                <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/admin/chart}'|">구역 관리</button>
+                <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/admin/management}'|">도시 관리</button>
             </div>
             <!-- Content Row -->
             <hr class="m-0">
@@ -82,23 +82,22 @@
                             <button type="button" class="btn btn-success btn-sm" id="addRowBtn" disabled>+ Add New</button>
                         </div>
                         <div class="card-body">
-                            <form id="dataForm">
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr style="text-align: center;">
-                                        <th>Name</th>
-                                        <th>CCTV Source</th>
-                                        <th>Map Source</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="data-table-body">
-                                    <!-- 기존 행 + 추가된 행 삽입 -->
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr style="text-align: center;">
+                                    <th>구역명</th>
+                                    <th>CCTV Source</th>
+                                    <th>Map Source</th>
+                                    <th>숨김</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="data-table-body">
+                                <!-- 기존 행 + 추가된 행 삽입 -->
 
-                                    </tbody>
-                                </table>
-                                <button id="saveCctvDataBtn" type="submit" class="btn btn-outline-primary btn-sm save-btn" style="float: right; display: none" disabled>모두 저장</button>
-                            </form>
+                                </tbody>
+                            </table>
+                            <button id="saveCctvDataBtn" type="button" class="btn btn-outline-primary btn-sm save-btn" style="float: right; display: none" disabled>모두 저장</button>
                         </div>
                     </div>
                 </div>
@@ -118,7 +117,7 @@
 <script th:src="@{/js/chart/chart-area-demo.js}" defer></script>
 <script th:src="@{/js/chart/chart-pie-demo.js}" defer></script>
 <!--<script th:src="@{/js/chart/chart-bar-demo.js}" defer></script>-->
-<script th:src="@{/js/areaInfoList.js}" defer></script>
+<script th:src="@{/js/areaManagement.js}" defer></script>
 
 <script th:inline="javascript" type="text/javascript" th:src="@{/js/chart-func.js}" defer></script>
 </body>

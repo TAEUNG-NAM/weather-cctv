@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}"
+      layout:fragment="Content">
+
+<body data-bs-spy="scroll" data-bs-target="#navbar">
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+<main class="main" id="top">
+
+    <!-- ============================================-->
+    <!-- <section> begin ============================-->
+    <section class="py-7">
+        <div class="container">
+            <div class="btn-group btn-group-sm me-2" role="group" aria-label="First group">
+                <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/admin/chart}'|">구역 관리</button>
+                <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/admin/management}'|">도시 관리</button>
+            </div>
+            <!-- Content Row -->
+            <hr class="m-0">
+            <!-- 도시 정보 List -->
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-wrap justify-content-center">
+                                <h5 class="m-0 font-weight-bold text-primary">도시 목록</h5>
+                                <select class="admin-select mx-1 float-lg-start py-0" id="slt-manage-country">
+                                    <option value="country">국가</option>
+                                    <option value="japan">일본</option>
+                                    <option>필리핀</option>
+                                    <option>네덜란드</option>
+                                    <option>나이지리아</option>
+                                    <option>사우디아라비아</option>
+                                </select>
+                            </div>
+                            <button type="button"
+                                    class="btn btn-success btn-sm"
+                                    id="addCityBtn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#city-manage-modal" disabled>도시 추가
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <form id="dataForm">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr style="text-align: center;">
+                                        <th>나라</th>
+                                        <th>도시</th>
+                                        <th>이미지</th>
+                                        <th style="width: 6%">숨김</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="city-data-list">
+                                    <!-- 기존 행 + 추가된 행 삽입 -->
+
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="city-manage-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title fs-3" id="exampleModalLabel">도시 추가</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- 국가 -->
+                    <div class="mb-3">
+                        <label class="form-label">국가</label>
+                        <input class="form-control form-control-sm" id="manage-country-name" disabled>
+                    </div>
+                    <!-- 도시명 -->
+                    <div class="mb-3">
+                        <label class="form-label">도시명</label>
+                        <input class="form-control form-control-sm" id="manage-city-name" autocomplete="off">
+                    </div>
+
+                    <!-- 노출여부 -->
+                    <div class="mb-3">
+                        <label class="form-label">노출여부</label>
+                        <select class="form-control form-control-sm" id="manage-city-del">
+                            <option value="y">비공개</option>
+                            <option value="n">공개</option>
+                        </select>
+                    </div>
+
+                    <!-- 이미지 입력 -->
+                    <div class="mb-3">
+                        <label class="form-label">이미지(369 x 369 px)</label>
+
+                        <div>
+                            <input type="file"
+                                   id="manage-city-image"
+                                   accept="image/png, image/jpeg">
+                        </div>
+<!--                            <textarea class="form-control form-control-sm" id="edit-comment-body" rows="3"></textarea>-->
+                    </div>
+
+                    <!-- 히든 인풋 -->
+                    <input type="hidden" id="edit-country-name">
+                    <input type="hidden" id="edit-city-id">
+                    <input type="hidden" id="edit-comment-article-id">
+
+                    <button type="button" class="btn btn-outline-primary btn-sm float-end" id="saveCityBtn">저장</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- ===============================================-->
+<!--    End of Main Content-->
+<!-- ===============================================-->
+
+<!-- Page level custom scripts -->
+<script th:src="@{/js/cityManagement.js}" defer></script>
+
+<!--<script th:inline="javascript" type="text/javascript" th:src="@{/js/chart-func.js}" defer></script>-->
+</body>
+
+
+</html>

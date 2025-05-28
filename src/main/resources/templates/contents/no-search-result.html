@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}"
+      layout:fragment="Content">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<body class="bg-light" data-bs-spy="scroll" data-bs-target="#navbar">
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+
+<!-- ============================================-->
+<!-- <section> begin ============================-->
+<div class="container py-8">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-12">
+            <!-- 이미지를 중앙에 배치하고 크기를 줄임 -->
+            <img src="https://cdn-icons-png.flaticon.com/512/2748/2748558.png"
+                 alt="No Results"
+                 class="no-results-img mb-4 mx-auto d-block"
+                 style="width: 70%;">
+            <!-- 아래 글들은 왼쪽 정렬 -->
+            <div class="text-start">
+                <h2 class="mb-2">죄송합니다!</h2>
+                <p class="lead mb-3">
+                    <strong th:text="'&quot;' + ${searchedCity} + '&quot;'"></strong>에 대한 검색 결과가 없습니다.
+                </p>
+                <ul class="list-unstyled mb-4">
+                    <li>· 철자가 맞는지 확인해보세요.</li>
+                    <li>· 도시명을 영어로 다시 시도해보세요.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===============================================-->
+<!--    End of Main Content-->
+<!-- ===============================================-->
+
+</body>
+
+
+</html>

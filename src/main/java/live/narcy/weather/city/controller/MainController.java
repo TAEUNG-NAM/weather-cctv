@@ -1,12 +1,13 @@
 package live.narcy.weather.city.controller;
 
+import live.narcy.weather.city.entity.CityEnum;
 import live.narcy.weather.member.dto.CustomOAuth2User;
-import live.narcy.weather.api.dto.WeatherDetailsDTO;
+import live.narcy.weather.weatherApi.dto.WeatherDetailsDTO;
 import live.narcy.weather.city.entity.Area;
 import live.narcy.weather.city.entity.City;
 import live.narcy.weather.city.service.CityService;
-import live.narcy.weather.city.service.ViewService;
-import live.narcy.weather.api.service.WeatherApiService;
+import live.narcy.weather.views.service.ViewService;
+import live.narcy.weather.weatherApi.service.WeatherApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.DoubleSummaryStatistics;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,10 +37,6 @@ public class MainController {
     public String home(Model model) {
 
         List<City> cities = cityService.getCityList("japan");   // 현재 일본만 조회
-
-        for(City city : cities) {
-            log.info("국가={}, 도시={}, api={}", city.getCountry(), city.getName(), city.getWeatherApi());
-        }
 
         model.addAttribute("cities", cities);
 
@@ -74,19 +68,9 @@ public class MainController {
         List<Area> areas = cityService.getAreaList(city);
         model.addAttribute("areas", areas);
 
-        for (Area area : areas) {
-            System.out.println("areaByCity = " + area.getName());
-        }
-
-//        List<Area> areas = areaRepository.findAll();
-//        for (Area area : areas) {
-//            System.out.println("area = " + area.getName());
-//            System.out.println("area.getCity = " + area.getCity().getName());
-//        }
-
-        log.info("국가명 = {}", countryName);
         model.addAttribute("countryName", countryName);
-        log.info("도시명 = {}", cityName);
+//        log.info("국가명 = {}", countryName);
+//        log.info("도시명 = {}", cityName);
 
         // 날씨 조회 API
         weatherAPI(cityName, model);
@@ -111,14 +95,12 @@ public class MainController {
 
         ResponseEntity<Map<String, List<WeatherDetailsDTO>>> weatherResponseEntity = weatherApiService.getWeather(cityName);
         if(weatherResponseEntity.getStatusCode().is2xxSuccessful()) {
-            System.out.println("컨트롤러 호출:locationEntity = " + weatherResponseEntity);
 
             Map<String, List<WeatherDetailsDTO>> weatherDetailsMap = weatherResponseEntity.getBody();
             Map<String, Map<String, Double>> minMaxTempMap = new HashMap<>();
 
             // 날씨 정보
             for (Map.Entry<String, List<WeatherDetailsDTO>> weatherEntry : weatherDetailsMap.entrySet()) {
-                System.out.println("Date = " + weatherEntry.getKey());
 
                 // 최저 온도 구하기
                 Double minTemp2 = weatherDetailsMap.get(weatherEntry.getKey())
@@ -158,8 +140,8 @@ public class MainController {
                         "min", minTemp
                 ));
 
-                System.out.println("최저 온도 = " + minTemp);
-                System.out.println("최고 온도 = " + maxTemp);
+//                log.info("Date = {}", weatherEntry.getKey());
+                log.info("Date = {}\t최저 온도 = {}\t최고 온도 = {}", weatherEntry.getKey(), minTemp, maxTemp);
 
             }
 
@@ -177,15 +159,22 @@ public class MainController {
      * @return
      */
     @GetMapping("/searchCity")
-    public String search(@RequestParam("searchedCity") String searchedCity) {
+    public String search(@RequestParam("searchedCity") String searchedCity, Model model) {
+        log.info("searchedCity = {}", searchedCity);
 
-        searchedCity = searchedCity.trim();
-        if(searchedCity.isEmpty()) {
-
+        City cityByEng = cityService.getCity(searchedCity);
+        if(cityByEng != null) {
+            return "redirect:/view/japan?city=" + searchedCity;
         }
 
-        System.out.println("searchedCity = " + searchedCity);
-        return "redirect:view/japan?city=" + searchedCity;
+        City cityByKor = cityService.getCityByKor(searchedCity);
+        if(cityByKor != null) {
+            return "redirect:/view/japan?city=" + cityByKor.getName();
+        }
+
+        // 조회 실패 시 에러페이지로 리다이렉트
+        model.addAttribute("searchedCity", searchedCity);
+        return "contents/no-search-result";
     }
 
 }

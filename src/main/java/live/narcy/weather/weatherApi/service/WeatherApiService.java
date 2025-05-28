@@ -1,10 +1,10 @@
-package live.narcy.weather.api.service;
+package live.narcy.weather.weatherApi.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import live.narcy.weather.api.dto.WeatherDetailsDTO;
+import live.narcy.weather.weatherApi.dto.WeatherDetailsDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface AreaRepository extends JpaRepository<Area, Long> {
 
+    List<Area> findByCityAndDelYn(City city, String delYn);
     List<Area> findByCity(City city);
 }
