@@ -1,6 +1,5 @@
 package live.narcy.weather.city.controller;
 
-import live.narcy.weather.city.entity.CityEnum;
 import live.narcy.weather.member.dto.CustomOAuth2User;
 import live.narcy.weather.weatherApi.dto.WeatherDetailsDTO;
 import live.narcy.weather.city.entity.Area;
