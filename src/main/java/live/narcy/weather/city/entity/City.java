@@ -42,6 +42,9 @@ public class City {
         if(target.getName() != null) {
             this.name = target.getName();
         }
+        if(target.getKorName() != null) {
+            this.korName = target.getKorName();
+        }
         if(target.delYn != null) {
             this.delYn = target.getDelYn();
         }

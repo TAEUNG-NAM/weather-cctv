@@ -21,8 +21,6 @@ function playVideo(collapseBtn, iframeSize) {
 
 // 페이지 로드 후 첫번째 영상 클릭
 window.addEventListener('DOMContentLoaded', function() {
-    const firstCollapse = document.querySelector("#accordionExample > div:nth-child(1) > h2 > button").click();
-
     // 첫번째 영상 재생
     this.addEventListener('load', function () {
         let firstIframe = document.querySelector('#iframe-1');
@@ -30,7 +28,10 @@ window.addEventListener('DOMContentLoaded', function() {
             '{"event":"command","func":"' + 'playVideo' + '","args":""}',
             '*',
         );
-    })
+    });
+    
+    // 첫 Collapse 클릭
+    const firstCollapse = document.querySelector("#accordionExample > div:nth-child(1) > h2 > button").click();
 })
 
 // API 요청용(미완)

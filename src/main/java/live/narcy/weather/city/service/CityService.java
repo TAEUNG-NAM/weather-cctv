@@ -80,6 +80,7 @@ public class CityService {
                 .id(Long.valueOf(param.get("cityId")))
                 .country(param.get("country"))
                 .name(param.get("cityName"))
+                .korName(param.get("cityKorName"))
                 .delYn(param.get("delYn"))
                 .build();
 

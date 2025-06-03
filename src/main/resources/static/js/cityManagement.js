@@ -41,6 +41,7 @@ function getCities(selectedCountry) {
                             data-bs-target="#city-manage-modal"
                             data-bs-id="${row.id}"
                             data-bs-city="${row.name}"
+                            data-bs-city-kor="${row.korName}"
                             data-bs-country="${row.country}"
                             data-bs-del = "${row.delYn}"
                             data-bs-article-id="{{articleId}}">수정</button>
@@ -75,7 +76,6 @@ document.addEventListener('mouseover', function(event) {
         }
     }
 });
-
 document.addEventListener('mousemove', function(event) {
     const thumbnailInput = event.target.closest('.thumbnail-name');
     if (thumbnailInput) {
@@ -87,7 +87,6 @@ document.addEventListener('mousemove', function(event) {
         }
     }
 });
-
 document.addEventListener('mouseout', function(event) {
     const thumbnailInput = event.target.closest('.thumbnail-name');
     if (thumbnailInput) {
@@ -124,12 +123,14 @@ sltManageCountry.addEventListener("change", () => {
         // const id = modalBtn.getAttribute("data-bs-id");
         const cityId = modalBtn.getAttribute("data-bs-id");
         const city = modalBtn.getAttribute("data-bs-city");
+        const cityKor = modalBtn.getAttribute("data-bs-city-kor");
         const countryEng = modalBtn.getAttribute("data-bs-country");
         const countryKor = sltManageCountry.options[sltManageCountry.selectedIndex].text;
         const delYn = modalBtn.getAttribute("data-bs-del");
 
         // 데이터 반영
         document.querySelector("#manage-city-name").value = city;
+        document.querySelector("#manage-city-name-kor").value = cityKor;
         document.querySelector("#manage-country-name").value = countryKor;
         document.querySelector("#edit-country-name").value = countryEng;
         document.querySelector("#edit-city-id").value = cityId;
@@ -149,6 +150,7 @@ sltManageCountry.addEventListener("change", () => {
         inData.append("country", sltManageCountry.value);
         inData.append("countryName", countryName);
         inData.append("cityName", document.querySelector("#manage-city-name").value);
+        inData.append("cityKorName", document.querySelector("#manage-city-name-kor").value);
         inData.append("cityId", cityId);
         inData.append("delYn", document.querySelector("#manage-city-del").value);
         inData.append("image", cityImage);
