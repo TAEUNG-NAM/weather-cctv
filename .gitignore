@@ -293,3 +293,4 @@ gradle-app.setting
 application-secret.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,java,intellij,netbeans,gradle,maven,visualstudiocode,macos,git
+.idea/inspectionProfiles/Project_Default.xml
