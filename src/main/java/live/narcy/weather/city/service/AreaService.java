@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,7 @@ public class AreaService {
 
     public List<Area> getCctvData(String cityName) {
         City city = cityRepository.findByName(cityName);
+        Objects.requireNonNull(city, "해당 도시는 존재하지 않습니다.");
 
         return areaRepository.findByCity(city);
     }

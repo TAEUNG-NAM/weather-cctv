@@ -144,9 +144,7 @@ public class AreaManagementController {
             log.info("Area = {}", a);
         }
 
-        return !cctvData.isEmpty() ?
-                ResponseEntity.ok(cctvData):
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.ok(cctvData);
     }
 
     /**
