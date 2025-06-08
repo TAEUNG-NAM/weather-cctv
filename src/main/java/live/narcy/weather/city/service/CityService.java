@@ -30,7 +30,7 @@ public class CityService {
 
     private final CityRepository cityRepository;
     private final AreaRepository areaRepository;
-    private final String THUMBNAIL_PATH = System.getProperty("user.dir") +"/thumbnails/";
+    private final String THUMBNAIL_PATH = System.getProperty("user.home") +"/thumbnails/";
 
     public List<City> getCityList(String countryName) {
         return cityRepository.findByCountryAndDelYn(countryName, "n");
@@ -78,7 +78,7 @@ public class CityService {
             Thumbnails.of(ogImg)
                     .outputQuality(1)
                     .forceSize(472, 378)    // width:472px, height:378px
-                    .toFiles(dir, Rename.PREFIX_HYPHEN_THUMBNAIL);
+                    .toFiles(dir, Rename.NO_CHANGE);
 
             log.info("thumbnailPath = {}", THUMBNAIL_PATH);
 
@@ -118,7 +118,7 @@ public class CityService {
             Thumbnails.of(ogImg)
                     .outputQuality(1)
                     .forceSize(472, 378)    // width:472px, height:378px
-                    .toFiles(new File(THUMBNAIL_PATH), Rename.PREFIX_HYPHEN_THUMBNAIL);
+                    .toFiles(new File(THUMBNAIL_PATH), Rename.NO_CHANGE);
 
             City newCity = City.builder()
                     .id(Long.valueOf(param.get("cityId")))
