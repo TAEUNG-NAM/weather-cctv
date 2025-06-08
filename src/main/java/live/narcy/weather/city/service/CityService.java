@@ -30,7 +30,8 @@ public class CityService {
 
     private final CityRepository cityRepository;
     private final AreaRepository areaRepository;
-    private final String THUMBNAIL_PATH = System.getProperty("user.home") +"/thumbnails/";
+    @Value("${file.upload.path}")
+    private String THUMBNAIL_PATH;
 
     public List<City> getCityList(String countryName) {
         return cityRepository.findByCountryAndDelYn(countryName, "n");
