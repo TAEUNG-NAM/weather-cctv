@@ -100,13 +100,13 @@
                         <label class="form-label">노출여부</label>
                         <select class="form-control form-control-sm" id="manage-city-del">
                             <option value="y">비공개</option>
-                            <option value="n">공개</option>
+                            <option value="n" selected>공개</option>
                         </select>
                     </div>
 
                     <!-- 이미지 입력 -->
                     <div class="mb-3">
-                        <label class="form-label">이미지(472 x 378 px)</label>
+                        <label class="form-label">이미지 용량 10MB 이하</label>
 
                         <div>
                             <input type="file"
@@ -124,6 +124,12 @@
                     <button type="button" class="btn btn-outline-primary btn-sm float-end" id="saveCityBtn">저장</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="loader d-none">
+        <div class="spinner-border loading" role="status">
+            <span class="visually-hidden">Loading...</span>
         </div>
     </div>
 </main>

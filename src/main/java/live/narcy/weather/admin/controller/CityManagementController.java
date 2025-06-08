@@ -36,20 +36,6 @@ public class CityManagementController {
         return "contents/cityManagement";
     }
 
-/*    *//**
-     * AreaChart 셀렉트(City) 목록 조회
-     * @return
-     *//*
-    @GetMapping("/api/admin/area-chart/city-list")
-    public ResponseEntity<?> getCityList(@RequestParam(name = "country", required = false) String countryName) {
-
-        // Country에 해당하는 city 조회
-        List<City> cities = cityService.getCityList(countryName);
-
-        return cities != null ?
-                ResponseEntity.ok(cities) :
-                ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }*/
 
     /**
      * 도시(City) 추가

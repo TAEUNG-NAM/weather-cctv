@@ -2,10 +2,12 @@ package live.narcy.weather.config;
 
 import live.narcy.weather.oauth2.CstmClientRegistrationRepository;
 import live.narcy.weather.member.service.CustomOAuth2UserService;
+import live.narcy.weather.oauth2.CustomOAuth2AuthorizedClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -20,6 +22,8 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CstmClientRegistrationRepository  clientRegistrationRepository;
+    private final CustomOAuth2AuthorizedClientService customOAuth2AuthorizedClientService;
+    private final JdbcTemplate jdbcTemplate;
 
     // 정적 자원(html, css, js) SecurityFilter 검증 제외
     @Bean
@@ -63,6 +67,7 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login")
                         .clientRegistrationRepository(clientRegistrationRepository.clientRegistrationRepository())  // class 방식을 통한 OAuth2 설정
+                        .authorizedClientService(customOAuth2AuthorizedClientService.oAuth2AuthorizedClientService(jdbcTemplate, clientRegistrationRepository.clientRegistrationRepository()))  // 인증 서버에서 발급 받은 Access 토큰 저장 설정
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig  // User정보 받을 EndPoint설정
                                 .userService(customOAuth2UserService)));
 
