@@ -7,6 +7,11 @@ import live.narcy.weather.city.repository.AreaRepository;
 import live.narcy.weather.city.repository.CityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnailator;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
+import net.coobird.thumbnailator.name.Rename;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +30,7 @@ public class CityService {
 
     private final CityRepository cityRepository;
     private final AreaRepository areaRepository;
+    private final String THUMBNAIL_PATH = System.getProperty("user.dir") +"/thumbnails/";
 
     public List<City> getCityList(String countryName) {
         return cityRepository.findByCountryAndDelYn(countryName, "n");
@@ -47,19 +53,40 @@ public class CityService {
     }
 
 
+    /**
+     * 신규 도시 추가 및 썸네일 생성
+     * @param param
+     * @param thumbnail
+     * @return
+     */
     @Transactional
     public City saveCity(Map<String, String> param, MultipartFile thumbnail) {
-        String ogFileName = thumbnail.getOriginalFilename();
-        int lastIndexOfDot = Objects.requireNonNull(ogFileName).lastIndexOf(".");
-        String extension = ogFileName.substring(lastIndexOfDot);
-
         try {
-            thumbnail.transferTo(new File("C:/Users/atrix/OneDrive/바탕 화면/Git/Narcy/src/main/resources/static/assets/img/gallery/" + param.get("cityName") + extension));
+            File dir = new File(THUMBNAIL_PATH);     // 디렉토리 경로가 없을 시 생성(#2)
+
+            if (!dir.exists()) {
+                if (!dir.mkdirs()){
+                    throw new IOException("Failed to create directory");
+                }
+            }
+
+            // 원본 이미지 생성
+            File ogImg = new File(THUMBNAIL_PATH + param.get("cityName") + ".png");
+            thumbnail.transferTo(ogImg);
+            
+            // 썸네일 생성
+            Thumbnails.of(ogImg)
+                    .outputQuality(1)
+                    .forceSize(472, 378)    // width:472px, height:378px
+                    .toFiles(dir, Rename.PREFIX_HYPHEN_THUMBNAIL);
+
+            log.info("thumbnailPath = {}", THUMBNAIL_PATH);
 
             City newCity = City.builder()
                     .name(param.get("cityName"))
+                    .korName(param.get("cityKorName"))
                     .country(param.get("country"))
-                    .thumbnail("/assets/img/gallery/" + param.get("cityName") + extension)
+                    .thumbnail(THUMBNAIL_PATH + param.get("cityName") + ".png")
                     .delYn("n")
                     .build();
 
@@ -70,25 +97,47 @@ public class CityService {
         }
     }
 
+    /**
+     * 도시 수정 및 썸네일 변경
+     * @param param
+     * @param thumbnail
+     * @return
+     */
     @Transactional
     public City updateCity(Map<String, String> param, MultipartFile thumbnail) {
         City targetCity = cityRepository.findById(Long.valueOf(param.get("cityId"))).orElseThrow(
                 () -> new EntityNotFoundException("해당 도시를 찾을 수 없습니다.")
         );
 
-        City newCity = City.builder()
-                .id(Long.valueOf(param.get("cityId")))
-                .country(param.get("country"))
-                .name(param.get("cityName"))
-                .korName(param.get("cityKorName"))
-                .delYn(param.get("delYn"))
-                .build();
+        try {
+            // 원본 이미지 생성
+            File ogImg = new File(THUMBNAIL_PATH + param.get("cityName") + ".png");
+            thumbnail.transferTo(ogImg);
 
-        City updatedCity = targetCity.patch(newCity);
+            // 썸네일 생성
+            Thumbnails.of(ogImg)
+                    .outputQuality(1)
+                    .forceSize(472, 378)    // width:472px, height:378px
+                    .toFiles(new File(THUMBNAIL_PATH), Rename.PREFIX_HYPHEN_THUMBNAIL);
 
-        cityRepository.save(updatedCity);
+            City newCity = City.builder()
+                    .id(Long.valueOf(param.get("cityId")))
+                    .country(param.get("country"))
+                    .name(param.get("cityName"))
+                    .korName(param.get("cityKorName"))
+                    .thumbnail(THUMBNAIL_PATH + param.get("cityName") + ".png")
+                    .delYn(param.get("delYn"))
+                    .build();
 
-        return updatedCity;
+            City updatedCity = targetCity.patch(newCity);
+
+            cityRepository.save(updatedCity);
+
+            return updatedCity;
+            
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Transactional
