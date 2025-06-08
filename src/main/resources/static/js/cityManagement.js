@@ -134,7 +134,7 @@ sltManageCountry.addEventListener("change", () => {
         document.querySelector("#manage-country-name").value = countryKor;
         document.querySelector("#edit-country-name").value = countryEng;
         document.querySelector("#edit-city-id").value = cityId;
-        document.querySelector("#manage-city-del").value = delYn;
+        if(delYn) { document.querySelector("#manage-city-del").value = delYn; }
     });
 }
 
@@ -168,6 +168,8 @@ sltManageCountry.addEventListener("change", () => {
         }
         // console.log(JSON.stringify(inData));
 
+        const loading = document.querySelector(".loader");
+        loading.classList.remove("d-none");
         const url = "/api/admin/management/city";
         fetch(url, {
             method: fetchMethod,
@@ -183,6 +185,8 @@ sltManageCountry.addEventListener("change", () => {
             // window.location.reload();
             document.querySelector(".btn-close").click();
             getCities(sltManageCountry.value);
+            document.querySelector("#manage-city-image").value = null;
+            loading.classList.add("d-none");
         });
     });
 }
