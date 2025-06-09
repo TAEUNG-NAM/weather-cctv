@@ -87,7 +87,7 @@ public class CityService {
                     .name(param.get("cityName"))
                     .korName(param.get("cityKorName"))
                     .country(param.get("country"))
-                    .thumbnail(THUMBNAIL_PATH + param.get("cityName") + ".png")
+                    .thumbnail("/thumbnail/" + param.get("cityName") + ".png")
                     .delYn("n")
                     .build();
 
@@ -126,7 +126,7 @@ public class CityService {
                     .country(param.get("country"))
                     .name(param.get("cityName"))
                     .korName(param.get("cityKorName"))
-                    .thumbnail(THUMBNAIL_PATH + param.get("cityName") + ".png")
+                    .thumbnail("/thumbnail/" + param.get("cityName") + ".png")
                     .delYn(param.get("delYn"))
                     .build();
 
