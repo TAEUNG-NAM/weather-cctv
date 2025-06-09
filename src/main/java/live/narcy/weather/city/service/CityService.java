@@ -30,7 +30,7 @@ public class CityService {
 
     private final CityRepository cityRepository;
     private final AreaRepository areaRepository;
-    @Value("${file.upload.path}")
+    @Value("${file.upload.root.path}")
     private String THUMBNAIL_PATH;
 
     public List<City> getCityList(String countryName) {
