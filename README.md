@@ -22,8 +22,8 @@
   도시별 조회수 통계를 시각적으로 표현하여 더 나은 의사결정을 돕습니다.
 
 ## PREVIEW
-[![narcy-main-image.png](https://i.postimg.cc/CMvQQNCX/narcy-main-image.png)](https://postimg.cc/rzrjd5PN)
-![CCTV](https://i.ibb.co/cSBXyNTM/narcy-cctv-image.png)
-![adminArea](https://i.ibb.co/nq1nQm0W/narcy-admin-area-image.png)
-![adminCity](https://i.ibb.co/ynSg2P0Y/narcy-admin-city-image.png)
-![ranking](https://i.ibb.co/Mkh7V6Lj/narcy-ranking-image.png)
+[![narcy-main-image.png](https://github.com/user-attachments/assets/4359fbb0-8de0-4c02-a92e-0b38e10bca3c)
+![CCTV](https://github.com/user-attachments/assets/575c4dc9-9595-4caf-9a12-ca5f4ed906cb)
+![adminArea](https://github.com/user-attachments/assets/f31ff56c-4d14-4d92-bd67-ac0d2ee2dfe9)
+![adminCity](https://github.com/user-attachments/assets/4ab62184-88db-4f3f-b83c-3cd8ad6b9ea3)
+![ranking](https://github.com/user-attachments/assets/bb47ccfa-02e2-4081-bf2e-cb1ae373ba26)
