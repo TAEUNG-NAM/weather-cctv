@@ -40,4 +40,6 @@
 
 5. ### 도시 별 조회수 순위 및 맛집 추천
 ![ranking](https://github.com/user-attachments/assets/bb47ccfa-02e2-4081-bf2e-cb1ae373ba26)
-<hr>
+
+## 프로젝트 구조
+![infra](https://github.com/user-attachments/assets/6c1bdec9-9c66-4033-a6e9-96a68b450550)
