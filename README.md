@@ -21,7 +21,8 @@
 - 📈 **데이터 시각화:**  
   도시별 조회수 통계를 시각적으로 표현하여 더 나은 의사결정을 돕습니다.
 
-## PREVIEW
+## PREVIEW [narcy.kro.kr](http://narcy.kro.kr)
+
 1. ### 메인 화면
 ![narcy-main-image.png](https://github.com/user-attachments/assets/4359fbb0-8de0-4c02-a92e-0b38e10bca3c)
 <hr>
