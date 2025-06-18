@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
@@ -51,10 +52,15 @@ public class SecurityConfig {
         // 접근 권한 설정
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/home", "/login/**", "/join", "/joinProc", "/oauth2/**", "/thumbnail/**").permitAll()
+                        .requestMatchers("/", "/home", "/login/**", "/join", "/joinProc", "/oauth2/**", "/thumbnail/**", "/view/**", "/cctvLogin.html").permitAll()
                         .requestMatchers("/api/admin/**", "/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
+
+        // 동일 경로에 한하여 iframe 허용
+        http
+                .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
         // 로그인 페이지 설정
         http

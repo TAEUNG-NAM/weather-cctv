@@ -1,5 +1,8 @@
 package live.narcy.weather.city.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import live.narcy.weather.member.dto.CustomOAuth2User;
 import live.narcy.weather.weatherApi.dto.WeatherDetailsDTO;
 import live.narcy.weather.city.entity.Area;
@@ -54,7 +57,9 @@ public class MainController {
                            @RequestParam("city") String cityName,
                            Model model,
                            Authentication authentication,
-                           @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
+                           @AuthenticationPrincipal CustomOAuth2User customOAuth2User,
+                           HttpServletRequest request,
+                           HttpServletResponse response) {
 
         // 모든 도시 조회 -> Select 박스 삽입
         List<City> cities = cityService.getCityList(countryName);
@@ -67,20 +72,60 @@ public class MainController {
         List<Area> areas = cityService.getAreaList(city);
         model.addAttribute("areas", areas);
 
-        model.addAttribute("countryName", countryName);
+//        model.addAttribute("countryName", countryName);
 //        log.info("국가명 = {}", countryName);
 //        log.info("도시명 = {}", cityName);
 
         // 날씨 조회 API
-        weatherAPI(cityName, model);
+//        weatherAPI(cityName, model);
 
-        String username = customOAuth2User.getUsername();                               // @AuthenticationPrincipal 어노테이션 방식
-        String email = ((CustomOAuth2User) authentication.getPrincipal()).getEmail();   // Authentication을 통해 추출
+//        String username = customOAuth2User.getUsername();                                         // @AuthenticationPrincipal 어노테이션 방식
+        String email = "";
+        if (authentication != null && authentication.getPrincipal() instanceof CustomOAuth2User) {  // Authentication을 통해 추출
+            email = ((CustomOAuth2User) authentication.getPrincipal()).getEmail();
 
-        // 조회수 증가
-        viewService.increaseViewCount(email, city);
+            // 조회수 증가
+            viewService.increaseViewCount(email, city, false);
+        } else {
+            // 쿠키 검증 및 전처리
+            Boolean cookieCheck = checkCookie(request, response, city);
+
+            // 조회수 증가
+            viewService.increaseViewCount(email, city, cookieCheck);
+        }
 
         return "contents/cities";
+    }
+
+    /**
+     * 비회원 쿠키 검증 및 전처리
+     * @param request
+     * @param response
+     * @param city
+     * @return
+     */
+    private Boolean checkCookie(HttpServletRequest request, HttpServletResponse response, City city) {
+        Cookie[] cookies = request.getCookies();
+        String cookieName = "viewedCity_" + city.getId();
+        boolean isViewed = false;
+
+        if(cookies != null) {
+            for(Cookie cookie : cookies) {
+                if(cookie.getName().equals(cookieName)) {
+                    isViewed = true;
+                    break;
+                }
+            }
+        }
+
+        if(!isViewed) {
+            Cookie newCookie = new Cookie(cookieName, "true");
+            newCookie.setMaxAge(60 * 5);    // 5분
+            newCookie.setPath("/");         // 전체 경로에 적용
+            response.addCookie(newCookie);
+            return isViewed;
+        }
+        return isViewed;
     }
 
     /**
