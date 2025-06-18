@@ -14,12 +14,17 @@ public class CstmClientRegistration {
 
     public ClientRegistration naverClientRegistration() {
         return ClientRegistration.withRegistrationId("naver")
-                .clientId("nRd5ijy1uU8vPzQI3UvE")
-//                .clientId("8QXlYYdF49eekVEZr8ir")
-                .clientSecret("VX09md7M0J")
-//                .clientSecret("ksW4vGY6oi")
-                .redirectUri("http://narcy.kro.kr:80/login/oauth2/code/naver")
-//                .redirectUri("http://localhost:8080/login/oauth2/code/naver")
+//                .clientId("nRd5ijy1uU8vPzQI3UvE")                                 // ec2
+//                .clientSecret("VX09md7M0J")                                       // ec2
+//                .redirectUri("http://narcy.kro.kr:80/login/oauth2/code/naver")    // ec2
+
+                .clientId("iOAbkXpIFq3MU883yGyO")                                   // S10e
+                .clientSecret("deXvPYrwCT")                                         // S10e
+                .redirectUri("http://narcy-dev.kro.kr:80/login/oauth2/code/naver")  // S10e
+
+//                .clientId("8QXlYYdF49eekVEZr8ir")                                   // 로컬
+//                .clientSecret("ksW4vGY6oi")                                         // 로컬
+//                .redirectUri("http://localhost:8080/login/oauth2/code/naver")       // 로컬
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .scope("name", "email")
                 .authorizationUri("https://nid.naver.com/oauth2.0/authorize")

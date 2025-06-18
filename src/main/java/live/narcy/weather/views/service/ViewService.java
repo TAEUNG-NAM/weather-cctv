@@ -1,5 +1,8 @@
 package live.narcy.weather.views.service;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import live.narcy.weather.views.dto.MonthlyViewCountInterface;
 import live.narcy.weather.views.dto.YearlyCountryViewRatio;
 import live.narcy.weather.views.dto.YearlyCountryViewRatioInterface;
@@ -10,6 +13,8 @@ import live.narcy.weather.city.repository.CityRepository;
 import live.narcy.weather.member.repository.MemberRepository;
 import live.narcy.weather.views.repository.ViewRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +22,11 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ViewService {
 
     private final ViewRepository viewRepository;
@@ -31,26 +38,42 @@ public class ViewService {
      * @param email
      * @param city
      */
-    @Transactional
-    public void increaseViewCount(String email, City city) {
+    @Async
+    public void increaseViewCount(String email, City city, Boolean isViewed) {
 
-        Member member = memberRepository.findByEmail(email);
-        Long memberId = member.getId();
-        
-        LocalDateTime coolDownLimit = LocalDateTime.now().minusMinutes(5);  // 조회수 증가 쿨타임(5분)
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
-        boolean hasRecentView = viewRepository.existsByMemberIdAndCityIdAndViewedAtAfter(memberId, city.getId(), coolDownLimit);
+        // 멤버 조회 및 조회수 증가 로직
+        log.info("비동기 스레드: {}", Thread.currentThread().getName());
 
-        if(!hasRecentView) {
-            Views views = Views.builder()
-                    .member(member)
-                    .city(city)
-                    .viewedAt(LocalDateTime.now())
-                    .build();
+        if(optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            Long memberId = member.getId();
 
-            viewRepository.save(views);
+            LocalDateTime coolDownLimit = LocalDateTime.now().minusMinutes(5);  // 조회수 증가 쿨타임(5분)
+
+            boolean hasRecentView = viewRepository.existsByMemberIdAndCityIdAndViewedAtAfter(memberId, city.getId(), coolDownLimit);
+
+            if(!hasRecentView) {
+                Views views = Views.builder()
+                        .member(member)
+                        .city(city)
+                        .viewedAt(LocalDateTime.now())
+                        .build();
+
+                viewRepository.save(views);
+            }
+        } else {
+            if(!isViewed) {
+                Views views = Views.builder()
+                        .member(null)
+                        .city(city)
+                        .viewedAt(LocalDateTime.now())
+                        .build();
+
+                viewRepository.save(views);
+            }
         }
-
     }
 
     /**

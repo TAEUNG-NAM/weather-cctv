@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layouts/mainLayout}"
       layout:fragment="Content">
 
@@ -41,7 +41,15 @@
                     </button>
                   </h2>
                   <div th:id="${'collapse' + areaStat.count}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                    <div class="accordion-item">
+                    <div th:if="${areaStat.count == 1}" class="accordion-item">
+                      <iframe class="min-vh-50 w-100" th:id="${'iframe-' + areaStat.count}" th:src="@{'https://www.youtube.com/embed/' + ${area.getCctvSrc()}(rel=0, controls=0, autoplay=0, mute=1, enablejsapi=1)}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                      <h6 class="text-center text-wrap py-1"><a class="text-decoration-underline text-primary" th:href="@{|${area.getMapSrc()}|}" target="_blank">구글맵으로 이동</a></h6>
+                    </div>
+                    <div sec:authorize="isAnonymous()" th:unless="${areaStat.count == 1}" class="accordion-item">
+                      <iframe class="min-vh-50 w-100" th:id="${'iframe-' + areaStat.count}" th:src="@{/cctvLogin.html}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                      <h6 class="text-center text-wrap py-1"><a class="text-decoration-underline text-primary" th:href="@{|${area.getMapSrc()}|}" target="_blank">구글맵으로 이동</a></h6>
+                    </div>
+                    <div sec:authorize="isAuthenticated()" th:unless="${areaStat.count == 1}" class="accordion-item">
                       <iframe class="min-vh-50 w-100" th:id="${'iframe-' + areaStat.count}" th:src="@{'https://www.youtube.com/embed/' + ${area.getCctvSrc()}(rel=0, controls=0, autoplay=0, mute=1, enablejsapi=1)}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                       <h6 class="text-center text-wrap py-1"><a class="text-decoration-underline text-primary" th:href="@{|${area.getMapSrc()}|}" target="_blank">구글맵으로 이동</a></h6>
                     </div>
@@ -85,11 +93,6 @@
     <!--    End of Main Content-->
     <!-- ===============================================-->
 
+  <script th:src="@{/js/viewCity.js}" defer></script>
   </body>
-
-  <script th:inline="javascript" type="text/javascript">
-    // const hello = [[${Hello}]];
-
-  </script>
-
 </html>

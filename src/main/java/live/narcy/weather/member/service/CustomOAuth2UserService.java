@@ -12,6 +12,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -39,10 +41,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         String role = "ROLE_USER";
 
-        Member findMember = memberRepository.findByEmail(oAuth2Response.getEmail());
+        Optional<Member> findMember = memberRepository.findByEmail(oAuth2Response.getEmail());
 
         // 계정 정보가 DB에 없을 때
-        if(findMember == null) {
+        if(findMember.isEmpty()) {
             MemberDTO memberDTO = MemberDTO.builder()
                     .email(oAuth2Response.getEmail())
                     .password("oauth2pw")
@@ -54,8 +56,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             memberRepository.save(newMember);
             log.info("회원가입 = {}", memberDTO);
         } else {
-            log.info("Email = {}\tRole = {}", oAuth2Response.getEmail(), findMember.getRole());
-            role = findMember.getRole();
+            role = findMember.get().getRole();
+            log.info("Email = {}\tRole = {}", oAuth2Response.getEmail(), role);
         }
 
         return new CustomOAuth2User(oAuth2Response, role);
