@@ -34,23 +34,3 @@ window.addEventListener('DOMContentLoaded', function() {
     const firstCollapse = document.querySelector("#accordionExample > div:nth-child(1) > h2 > button").click();
 })
 
-// API 요청용(미완)
-function searchCity(city) {
-    fetch('/japan?city='+city, {
-        method: "GET"
-    }).then(response => {
-        if(response.ok) {
-            alert("OK");
-        }
-    });
-}
-
-// 도시 검색 빈값 체크
-function validForm() {
-    const searchInput = document.getElementById('searchInput').value.trim();
-    if (searchInput === '') {
-        alert('도시명을 입력해주세요.');
-        return false;
-    }
-    return true;
-}
