@@ -2795,6 +2795,18 @@ textarea.form-control-lg {
   .card-header .d-flex.flex-md-row > div:last-child {
     margin-bottom: 0; /* 마지막 요소는 간격 제거 */
   }
+
+  /* 항공 스케줄 조회 - 운항일 옵션 배치 */
+  .date-inline-group {
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+  .date-inline-group .datepicker {
+    width: 100px;
+    min-width: 0;
+    margin-left: 8px;
+    margin-top: 0;
+  }
 }
 
 
@@ -2802,6 +2814,7 @@ textarea.form-control-lg {
   display: block;
   width: 100%;
   padding: 0.5rem 4.5rem 0.5rem 1.5rem;
+  /*padding: 0.5rem 3rem 0.5rem 1rem;*/
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -18663,3 +18676,58 @@ height: 43px;
   height: 60px;
 }
 
+
+/* 항공 스케줄 조회 CSS */
+.main-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 2rem;
+  margin-top: 0.5rem;
+  color: #212529;
+}
+.search-card {
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+  padding: 2rem 1rem;
+  margin-bottom: 2.5rem;
+}
+.option-label {
+  min-width: 60px;
+  flex-shrink: 0;
+  margin-bottom: 0 !important;
+  margin-right: 0px;
+  white-space: nowrap;
+  color: #0d6efd;
+  font-weight: 600;
+}
+.date-inline-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.date-inline-group .form-check {
+  margin-right: 8px;
+}
+.date-inline-group .datepicker {
+  width: 140px;
+  margin-left: 6px;
+}
+
+/* 결과 테이블 스타일 */
+.schedule-table th, .schedule-table td {
+  vertical-align: middle;
+  text-align: center;
+}
+.flight-icon {
+  color: #0d6efd;
+  font-size: 1em;
+}
+.table-card {
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+  padding: 2rem 1rem;
+  margin-bottom: 2.5rem;
+}

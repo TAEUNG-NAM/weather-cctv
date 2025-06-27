@@ -9,7 +9,7 @@
         <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item px-2"><a class="nav-link fw-bold" href="/best-city">올해의 도시 <i class="fas fa-trophy" style="color: #ffc800;"></i></a></li>
-                <li class="nav-item px-2"><a class="nav-link fw-bold" href="#services" onclick="javascript:alert('서비스 준비중..')">월별 추천 여행지</a></li>
+                <li class="nav-item px-2"><a class="nav-link fw-bold" href="/flight-schedule">운항 스케줄 ✈️</a></li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item px-2"><a class="nav-link fw-bold" th:href="@{/admin/chart}">관리자 </a></li>
                 <li sec:authorize="isAnonymous()" class="nav-item px-2"><a class="nav-link fw-bold text-primary" href="/login">로그인</a></li>
                 <li sec:authorize="isAuthenticated()" class="nav-item px-2"><a class="nav-link fw-bold text-primary" href="/logout">로그아웃</a></li>
