@@ -21,26 +21,39 @@
 - 📈 **데이터 시각화:**  
   도시별 조회수 통계를 시각적으로 표현하여 더 나은 의사결정을 돕습니다.
 
-## PREVIEW [narcy.kro.kr](http://narcy.kro.kr)
+## 둘러보기 [narcy.kro.kr](https://narcy.kro.kr)
 
-1. ### 메인 화면
-![narcy-main-image.png](https://github.com/user-attachments/assets/4359fbb0-8de0-4c02-a92e-0b38e10bca3c)
+### 메인 화면
+![narcy-main-image.png](https://github.com/user-attachments/assets/8b52701e-367d-443b-be2c-aa19ce022015)
 <hr>
 
-2. ### 실시간 CCTV 영상 및 날씨 위젯
-![CCTV](https://github.com/user-attachments/assets/575c4dc9-9595-4caf-9a12-ca5f4ed906cb)
+### 실시간 CCTV 영상 및 날씨 위젯
+- **로그인 전(상위 1개 영상 시청 가능)**
+![CCTV1](https://github.com/user-attachments/assets/c2d737fa-4998-45c1-ac92-4d983febd664)
+
+- **로그인 후(모든 영상 시청 가능)**
+![CCTV2](https://github.com/user-attachments/assets/575c4dc9-9595-4caf-9a12-ca5f4ed906cb)
 <hr>
 
-3. ### CCTV 관리 및 조회수 차트(관리자)
+### 항공 스케줄 조회
+![flightSchedule](https://github.com/user-attachments/assets/eb36d9a2-45bd-4e4f-b70c-3e064d01991d)
+<hr>
+
+### 도시 별 조회수 순위 및 맛집 추천
+![ranking](https://github.com/user-attachments/assets/bb47ccfa-02e2-4081-bf2e-cb1ae373ba26)
+<hr>
+
+### CCTV 관리 및 조회수 차트(관리자)
 ![adminArea](https://github.com/user-attachments/assets/f31ff56c-4d14-4d92-bd67-ac0d2ee2dfe9)
 <hr>
 
-4. ### 도시 관리(관리자)
+### 도시 관리(관리자)
 ![adminCity](https://github.com/user-attachments/assets/4ab62184-88db-4f3f-b83c-3cd8ad6b9ea3)
-<hr>
 
-5. ### 도시 별 조회수 순위 및 맛집 추천
-![ranking](https://github.com/user-attachments/assets/bb47ccfa-02e2-4081-bf2e-cb1ae373ba26)
 
 ## 프로젝트 구조
-![infra](https://github.com/user-attachments/assets/6c1bdec9-9c66-4033-a6e9-96a68b450550)
+- AWS(  ~2025.06.30) - 프리티어 기간 만료
+![infra1](https://github.com/user-attachments/assets/6c1bdec9-9c66-4033-a6e9-96a68b450550)
+
+- 스마트폰을 활용한 개인 서버(2025.06.30 ~ 현재)
+![infra2](https://github.com/user-attachments/assets/2ff6ce45-7528-4187-92bf-8746e651d71f)
