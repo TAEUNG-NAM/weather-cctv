@@ -9,6 +9,7 @@ import org.hibernate.annotations.ColumnDefault;
 import java.util.Objects;
 
 @Entity
+@Table(name = "city")
 @Getter
 @NoArgsConstructor
 public class City {

@@ -18731,3 +18731,7 @@ height: 43px;
   padding: 2rem 1rem;
   margin-bottom: 2.5rem;
 }
+.swiper-slide img {
+  max-width: 500px;
+}
+

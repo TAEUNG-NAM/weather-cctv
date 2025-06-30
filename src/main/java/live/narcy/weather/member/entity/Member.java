@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Entity
+@Table(name = "member")
 @Getter
 @RequiredArgsConstructor
 public class Member {

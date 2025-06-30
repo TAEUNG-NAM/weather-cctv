@@ -6,6 +6,7 @@ import live.narcy.weather.city.dto.AreaDTO;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
+@Table(name = "area")
 @Entity
 @Getter
 @NoArgsConstructor
