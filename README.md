@@ -28,10 +28,10 @@
 <hr>
 
 ### 실시간 CCTV 영상 및 날씨 위젯
-- **로그인 전(상위 1개 영상 시청 가능)**
+- **비회원(상위 1개 영상 시청 가능)**
 ![CCTV1](https://github.com/user-attachments/assets/c2d737fa-4998-45c1-ac92-4d983febd664)
 
-- **로그인 후(모든 영상 시청 가능)**
+- **회원(모든 영상 시청 가능)**
 ![CCTV2](https://github.com/user-attachments/assets/575c4dc9-9595-4caf-9a12-ca5f4ed906cb)
 <hr>
 
