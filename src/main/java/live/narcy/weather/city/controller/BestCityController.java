@@ -21,9 +21,6 @@ public class BestCityController {
         Map<String, String> topCityMap =  viewService.getTopCityViews();
 
         model.addAttribute("topCityMap", topCityMap);
-        System.out.println("1등 = " + topCityMap.get("topCity_1") + " : " + topCityMap.get("topView_1"));
-        System.out.println("2등 = " + topCityMap.get("topCity_2") + " : " + topCityMap.get("topView_2"));
-        System.out.println("3등 = " + topCityMap.get("topCity_3") + " : " + topCityMap.get("topView_3"));
 
         return "contents/best-city";
     }
