@@ -73,11 +73,9 @@ public class MainController {
         model.addAttribute("areas", areas);
 
 //        model.addAttribute("countryName", countryName);
-//        log.info("국가명 = {}", countryName);
-//        log.info("도시명 = {}", cityName);
 
         // 날씨 조회 API
-//        weatherAPI(cityName, model);
+        weatherAPI(cityName, model);
 
 //        String username = customOAuth2User.getUsername();                                         // @AuthenticationPrincipal 어노테이션 방식
         String email = "";

@@ -42,7 +42,7 @@ public class ScheduleController {
     @PostMapping("/api/search/destinations")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> getAvailableDestinations(@RequestBody String param) throws JsonProcessingException {
-        log.info("도착지&항공사 조회 = {}", param);
+        log.info(param);
 
         List<AvailableDestinationsDTO> availableDestinationsList = scheduleService.getDestinations(param);
         List<AvailableAirlineDTO> availableAirlineList = scheduleService.getAvailableAirlines(param);
@@ -64,7 +64,7 @@ public class ScheduleController {
     @PostMapping("/api/search/flight-schedules")
     @ResponseBody
     public ResponseEntity<List<FlightSchedulesDTO>> getFlightSchedules(@RequestBody String param) throws JsonProcessingException {
-        log.info("운항스케줄 조회 = {}", param);
+        log.info(param);
 
         List<FlightSchedulesDTO> flightSchedulesList = scheduleService.getSchedules(param);
 
