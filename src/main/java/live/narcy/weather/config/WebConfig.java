@@ -35,11 +35,12 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loggingInterceptor)
-                .addPathPatterns("/**") // 모든 요청에 적용
-                .excludePathPatterns("/assets/**")
+                .addPathPatterns("/**")             // 모든 요청에 적용
+                .excludePathPatterns("/assets/**")  // 제외할 요청들
                 .excludePathPatterns("/vendors/**")
                 .excludePathPatterns("/js/**")
                 .excludePathPatterns("/error/**")
+                .excludePathPatterns("/thumbnail/**")
                 .excludePathPatterns("/cctvLogin.html");
     }
 }

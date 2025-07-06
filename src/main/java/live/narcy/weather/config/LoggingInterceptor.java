@@ -26,8 +26,18 @@ public class LoggingInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         long startTime = (Long) request.getAttribute(START_TIME);
         long duration = System.currentTimeMillis() - startTime;
-        String XRI = request.getHeader("X-Real-IP");
-        String XFF = request.getHeader("X-Forwarded-For");
+
+        String ip = request.getHeader("X-Forwarded-For");
+        if (ip == null) {
+            ip = request.getHeader("X-Real-IP");
+        }
+        if (ip == null) {
+            ip = request.getRemoteAddr();
+        }
+        // X-Forwarded-For가 여러 IP면, 맨 앞 IP만 사용
+        if (ip != null && ip.contains(",")) {
+            ip = ip.split(",")[0].trim();
+        }
 
         String email = "anonymous";
         Authentication authentication = (Authentication) request.getUserPrincipal();
@@ -35,7 +45,6 @@ public class LoggingInterceptor implements HandlerInterceptor {
             email = ((CustomOAuth2User) authentication.getPrincipal()).getEmail();
         }
 
-        String ip = request.getRemoteAddr();
         String method = request.getMethod();
         String uri = request.getRequestURI();
         int status = response.getStatus();
