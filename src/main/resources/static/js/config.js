@@ -7,3 +7,9 @@ function validForm() {
     }
     return true;
 }
+
+// Bootstrap Tooltip 활성화
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+});
