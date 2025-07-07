@@ -35,7 +35,7 @@ public class MainController {
      * @param model
      * @return
      */
-    @GetMapping({"/", "/home"})
+    @GetMapping("/")
     public String home(Model model) {
 
         List<City> cities = cityService.getCityList("japan");   // 현재 일본만 조회
