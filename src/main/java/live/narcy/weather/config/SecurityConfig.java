@@ -52,7 +52,7 @@ public class SecurityConfig {
         // 접근 권한 설정
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login/**", "/join", "/joinProc", "/oauth2/**", "/thumbnail/**", "/view/**", "/cctvLogin.html", "/flight-schedule", "/api/search/**").permitAll()
+                        .requestMatchers("/", "/login/**", "/join", "/joinProc", "/oauth2/**", "/thumbnail/**", "/view/**", "/cctvLogin.html", "/naver50fdb02ec8ff42fe2a36a3af8474a83a.html", "/flight-schedule", "/api/search/**").permitAll()
                         .requestMatchers("/api/admin/**", "/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
