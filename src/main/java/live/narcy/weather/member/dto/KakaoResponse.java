@@ -1,9 +1,13 @@
 package live.narcy.weather.member.dto;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Map;
 
-public class KakaoResponse implements OAuth2Response{
+public class KakaoResponse implements OAuth2Response, Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 1L;
     private final Map<String, Object> attribute;
 
     public KakaoResponse(Map<String, Object> attribute) {
