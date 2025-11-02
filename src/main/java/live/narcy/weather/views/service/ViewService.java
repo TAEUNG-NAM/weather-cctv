@@ -1,11 +1,7 @@
 package live.narcy.weather.views.service;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import live.narcy.weather.views.dto.MonthlyViewCountInterface;
+import live.narcy.weather.views.dto.MonthlyViewCount;
 import live.narcy.weather.views.dto.YearlyCountryViewRatio;
-import live.narcy.weather.views.dto.YearlyCountryViewRatioInterface;
 import live.narcy.weather.city.entity.City;
 import live.narcy.weather.member.entity.Member;
 import live.narcy.weather.views.entity.Views;
@@ -31,7 +27,6 @@ public class ViewService {
 
     private final ViewRepository viewRepository;
     private final MemberRepository memberRepository;
-    private final CityRepository cityRepository;
 
     /**
      * 조회수 증가(DB저장)
@@ -58,7 +53,6 @@ public class ViewService {
                 Views views = Views.builder()
                         .member(member)
                         .city(city)
-                        .viewedAt(LocalDateTime.now())
                         .build();
 
                 viewRepository.save(views);
@@ -68,7 +62,6 @@ public class ViewService {
                 Views views = Views.builder()
                         .member(null)
                         .city(city)
-                        .viewedAt(LocalDateTime.now())
                         .build();
 
                 viewRepository.save(views);
@@ -83,22 +76,16 @@ public class ViewService {
      * @param cityName
      * @return
      */
-    public List<MonthlyViewCountInterface> getViewsCount(String year, String countryName, String cityName) {
-
-        List<MonthlyViewCountInterface> monthlyViewCountList;
-
+    @Transactional(readOnly = true)
+    public List<MonthlyViewCount> getViewsCount(String year, String countryName, String cityName) {
         if("total".equals(cityName)) {
             // 전체 도시 조회일 때
-            monthlyViewCountList = viewRepository.countMonthlyCountryViewCounts(countryName, Integer.parseInt(year));
-
+            return viewRepository.countMonthlyCountryViewCounts(countryName, Integer.parseInt(year));
         } else {
             // 선택된 도시 조회일 때
             // 월별 조회수 조회
-            City city = cityRepository.findByName(cityName);
-            monthlyViewCountList = viewRepository.countMonthlyCityViewCounts(city.getId(), Integer.parseInt(year));
+            return viewRepository.countMonthlyCityViewCounts(cityName, Integer.parseInt(year));
         }
-
-        return monthlyViewCountList;
     }
 
     /**
@@ -107,16 +94,19 @@ public class ViewService {
      * @param country
      * @return
      */
-    public List<YearlyCountryViewRatioInterface> getViewsRatio(String year, String country) {
-
-        List<YearlyCountryViewRatioInterface> yearlyViewsRatioMap = viewRepository.countYearlyCountryViewRatio(country, Integer.parseInt(year));
-
-        return yearlyViewsRatioMap;
+    @Transactional(readOnly = true)
+    public List<YearlyCountryViewRatio> getViewsRatio(String year, String country) {
+        return viewRepository.countYearlyCountryViewRatio(country, Integer.parseInt(year));
     }
 
 
+    /**
+     * 올해의 도시 조회수 조회
+     * @return
+     */
+    @Transactional(readOnly = true)
     public Map<String, String> getTopCityViews() {
-        List<YearlyCountryViewRatioInterface> topViewCityList = viewRepository.countCityTopViewCounts();
+        List<YearlyCountryViewRatio> topViewCityList = viewRepository.countCityTopViewCounts();
 
         Map<String, String> topViewCities = new HashMap<>();
         topViewCities.forEach((k, v) -> {
