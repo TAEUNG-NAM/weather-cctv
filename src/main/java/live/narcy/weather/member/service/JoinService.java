@@ -1,6 +1,6 @@
 package live.narcy.weather.member.service;
 
-import live.narcy.weather.member.dto.MemberDTO;
+import live.narcy.weather.member.dto.MemberDto;
 import live.narcy.weather.member.entity.Member;
 import live.narcy.weather.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class JoinService {
      * 회원가입
      * @param dto
      */
-    public void joinProcess(MemberDTO dto) {
+    public void joinProcess(MemberDto dto) {
         // DB에 중복 검증
         Boolean isExist = memberRepository.existsByEmail(dto.getEmail());
         if(isExist) {
@@ -26,7 +26,7 @@ public class JoinService {
         }
 
         // DTO -> Entity
-        Member member = MemberDTO.toMember(dto, bCryptPasswordEncoder);
+        Member member = MemberDto.toMember(dto, bCryptPasswordEncoder);
 
         memberRepository.save(member);
     }

@@ -1,17 +1,14 @@
 package live.narcy.weather.flightSchedule.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.List;
-
 @Getter
 @ToString
 @NoArgsConstructor
-public class AvailableAirlineDTO {
+public class AvailableAirlineDto {
 
     @JsonProperty("AIRLINE_KOREAN")
     private String airlineKorean;

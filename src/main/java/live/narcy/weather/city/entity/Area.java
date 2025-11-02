@@ -2,14 +2,14 @@ package live.narcy.weather.city.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import live.narcy.weather.city.dto.AreaDTO;
+import live.narcy.weather.city.dto.AreaDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 @Table(name = "area")
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class Area {
 
@@ -25,9 +25,10 @@ public class Area {
     @Column(name = "map_src")
     private String mapSrc;
 
+//    @JsonIgnore     // 지연 로딩으로 인해 생성된 프록시 객체 클라이언트로 전달할 때 제외
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
-    @JsonIgnore     // 지연 로딩으로 인해 생성된 프록시 객체 클라이언트로 전달할 때 제외
     private City city;
 
     @Column(name = "del_yn", length = 1)
@@ -43,7 +44,7 @@ public class Area {
         this.delYn = delYn;
     }
 
-    public Area patch(AreaDTO area) {
+    public Area patch(AreaDto area) {
         if(this.id != area.getId()) {
             throw new IllegalArgumentException("ID 불일치");
         }
@@ -64,15 +65,14 @@ public class Area {
         return this;
     }
 
-    public static AreaDTO toDTO(Area area) {
-        return AreaDTO.builder()
-                .id(area.getId())
-                .name(area.getName())
-                .cctvSrc(area.getCctvSrc())
-                .mapSrc(area.getMapSrc())
-                .city(area.getCity().getName())
-                .delYn(area.getDelYn())
+    public static Area from(AreaDto dto, City city) {
+        return Area.builder()
+                .name(dto.getName())
+                .cctvSrc(dto.getCctvSrc())
+                .mapSrc(dto.getMapSrc())
+                .city(city)
+                .delYn(dto.getDelYn())
                 .build();
-
     }
+
 }

@@ -3,12 +3,14 @@ package live.narcy.weather.city.controller;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import live.narcy.weather.member.dto.CustomOAuth2User;
-import live.narcy.weather.weatherApi.dto.WeatherDetailsDTO;
-import live.narcy.weather.city.entity.Area;
+import live.narcy.weather.city.dto.AreaDto;
+import live.narcy.weather.city.dto.CityDto;
 import live.narcy.weather.city.entity.City;
+import live.narcy.weather.city.service.AreaService;
 import live.narcy.weather.city.service.CityService;
+import live.narcy.weather.member.dto.CustomOAuth2User;
 import live.narcy.weather.views.service.ViewService;
+import live.narcy.weather.weatherApi.dto.WeatherDetailsDTO;
 import live.narcy.weather.weatherApi.service.WeatherApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,33 +19,22 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class MainController {
+public class CityController {
 
-    private final CityService cityService;
-    private final WeatherApiService weatherApiService;
     private final ViewService viewService;
-
-    /**
-     * 홈 화면(기본)
-     * @param model
-     * @return
-     */
-    @GetMapping("/")
-    public String home(Model model) {
-
-        List<City> cities = cityService.getCityList("japan");   // 현재 일본만 조회
-
-        model.addAttribute("cities", cities);
-
-        return "contents/home";
-    }
+    private final CityService cityService;
+    private final AreaService areaService;
+    private final WeatherApiService weatherApiService;
 
     /**
      * 특정 도시 CCTV 및 날씨(API) 조회
@@ -61,18 +52,17 @@ public class MainController {
                            HttpServletRequest request,
                            HttpServletResponse response) {
 
+        // 도시 검증 및 조회
+        City city = cityService.getCity(cityName);
+
         // 모든 도시 조회 -> Select 박스 삽입
-        List<City> cities = cityService.getCityList(countryName);
+        List<CityDto> cities = cityService.getCities(countryName);
         model.addAttribute("cities", cities);
         model.addAttribute("selectedCity", cityName);
 
-        // 도시명(cityName)을 통해 city 객체 가져온 뒤
-        // 가져온 city 객체를 통해 연관된 모든 area객체 가져오기
-        City city = cityService.getCity(cityName);
-        List<Area> areas = cityService.getAreaList(city);
+        // 조회할 도시의 모든 구역(cctv) 가져오기
+        List<AreaDto> areas = areaService.getAreaList(cityName);
         model.addAttribute("areas", areas);
-
-//        model.addAttribute("countryName", countryName);
 
         // 날씨 조회 API
         weatherAPI(cityName, model);
@@ -96,6 +86,21 @@ public class MainController {
     }
 
     /**
+     * 올해의 도시 페이지
+     * @param model
+     * @return
+     */
+    @GetMapping("/best-city")
+    public String bestCityPage(Model model) {
+
+        Map<String, String> topCityMap =  viewService.getTopCityViews();
+
+        model.addAttribute("topCityMap", topCityMap);
+
+        return "contents/best-city";
+    }
+
+    /**
      * 비회원 쿠키 검증 및 전처리
      * @param request
      * @param response
@@ -116,6 +121,7 @@ public class MainController {
             }
         }
 
+        // 조회 플래그(쿠키) 없을 경우
         if(!isViewed) {
             Cookie newCookie = new Cookie(cookieName, "true");
             newCookie.setMaxAge(60 * 5);    // 5분
@@ -133,8 +139,6 @@ public class MainController {
      */
     @ResponseBody
     private void weatherAPI(String cityName, Model model) {
-//        System.out.println(data);
-
         ResponseEntity<Map<String, List<WeatherDetailsDTO>>> weatherResponseEntity = weatherApiService.getWeather(cityName);
         if(weatherResponseEntity.getStatusCode().is2xxSuccessful()) {
 
@@ -163,8 +167,8 @@ public class MainController {
                 List<WeatherDetailsDTO> weatherDetails = weatherDetailsMap.get(weatherEntry.getKey());
 
                 DoubleSummaryStatistics stats = weatherDetails.stream()
-                                .mapToDouble(WeatherDetailsDTO::getTemp)
-                                        .summaryStatistics();
+                        .mapToDouble(WeatherDetailsDTO::getTemp)
+                        .summaryStatistics();
 
                 // 최저, 최고 온도 구하기
                 double maxTemp = stats.getMax();
@@ -194,29 +198,4 @@ public class MainController {
         }
 
     }
-
-    /**
-     * 도시 검색 기능
-     * @param searchedCity
-     * @return
-     */
-    @GetMapping("/searchCity")
-    public String search(@RequestParam("searchedCity") String searchedCity, Model model) {
-        log.info("searchedCity = {}", searchedCity);
-
-        City cityByEng = cityService.getCity(searchedCity);
-        if(cityByEng != null) {
-            return "redirect:/view/japan?city=" + searchedCity;
-        }
-
-        City cityByKor = cityService.getCityByKor(searchedCity);
-        if(cityByKor != null) {
-            return "redirect:/view/japan?city=" + cityByKor.getName();
-        }
-
-        // 조회 실패 시 에러페이지로 리다이렉트
-        model.addAttribute("searchedCity", searchedCity);
-        return "contents/no-search-result";
-    }
-
 }
