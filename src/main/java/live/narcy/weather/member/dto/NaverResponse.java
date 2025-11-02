@@ -1,9 +1,13 @@
 package live.narcy.weather.member.dto;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Map;
 
-public class NaverResponse implements OAuth2Response{
+public class NaverResponse implements OAuth2Response, Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 1L;
     private final Map<String, Object> attribute;
 
     public NaverResponse(Map<String, Object> attribute) {
