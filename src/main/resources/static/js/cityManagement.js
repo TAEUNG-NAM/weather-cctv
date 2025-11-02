@@ -2,15 +2,17 @@ const sltManageCountry = document.querySelector("#slt-manage-country");
 const addCityBtn = document.querySelector("#addCityBtn");
 const saveCityBtn = document.querySelector("#saveCityBtn");
 
+document.addEventListener("DOMContentLoaded", function () {
+    getCities("japan");
+});
+
 /* 도시 목록 불러오기 */
 function getCities(selectedCountry) {
-    // const url = "/api/admin/management/cities"
-
     const inData = {
         country: selectedCountry
     }
     const param = new URLSearchParams(inData).toString();
-    const url = "/api/admin/area-chart/city-list?" + param;
+    const url = "/api/admin/management/city?" + param;
 
     fetch(url)
         .then(response => response.json())
@@ -27,7 +29,7 @@ function getCities(selectedCountry) {
                 tr.innerHTML = `
                     <input type="hidden" name="id" value="${row.id}" class="form-control" disabled required>
                     <td><input type="text" name="country" value="${row.country}" class="form-control" disabled required></td>
-                    <td><input type="text" name="city" value="${row.name}" class="form-control" disabled required></td>
+                    <td><input type="text" name="city" value="${row.engName}" class="form-control" disabled required></td>
                     <td>
                         <input type="text" name="thumbnail" value="${imageName}" class="form-control thumbnail-name" disabled required>
                         <div class="img-thumbnail image-preview" style="background-image: url(${row.thumbnail});"></div>
@@ -40,7 +42,7 @@ function getCities(selectedCountry) {
                             data-bs-toggle="modal"
                             data-bs-target="#city-manage-modal"
                             data-bs-id="${row.id}"
-                            data-bs-city="${row.name}"
+                            data-bs-city="${row.engName}"
                             data-bs-city-kor="${row.korName}"
                             data-bs-country="${row.country}"
                             data-bs-del = "${row.delYn}"
@@ -65,6 +67,11 @@ function getCities(selectedCountry) {
             console.error("도시 조회 실패 :", error);
         });
 }
+
+/* 국가 선택 시 [도시 추가] 버튼 활성화 */
+sltManageCountry.addEventListener("change", () => {
+    getCities(sltManageCountry.value);
+});
 
 /* 도시 썸네일 미리보기 */
 document.addEventListener('mouseover', function(event) {
@@ -97,17 +104,6 @@ document.addEventListener('mouseout', function(event) {
     }
 });
 //도시 썸네일 미리보기
-
-/* 국가 선택 시 [도시 추가] 버튼 활성화 */
-sltManageCountry.addEventListener("change", () => {
-    if(sltManageCountry.value !== "country") {
-        getCities(sltManageCountry.value);
-        addCityBtn.disabled = false;
-    } else {
-        addCityBtn.disabled = true;
-    }
-});
-
 
 <!--모달 이벤트 처리(도시 추가)-->
 {
@@ -147,14 +143,13 @@ sltManageCountry.addEventListener("change", () => {
         const countryName = document.querySelector("#edit-country-name").value;
         const cityId = document.querySelector("#edit-city-id").value;
 
+        inData.append("id", cityId);
+        // inData.append("countryName", countryName);
+        inData.append("engName", document.querySelector("#manage-city-name").value);
+        inData.append("korName", document.querySelector("#manage-city-name-kor").value);
         inData.append("country", sltManageCountry.value);
-        inData.append("countryName", countryName);
-        inData.append("cityName", document.querySelector("#manage-city-name").value);
-        inData.append("cityKorName", document.querySelector("#manage-city-name-kor").value);
-        inData.append("cityId", cityId);
         inData.append("delYn", document.querySelector("#manage-city-del").value);
         inData.append("image", cityImage);
-
 
         let fetchMethod;
         let msgComment;
@@ -162,9 +157,12 @@ sltManageCountry.addEventListener("change", () => {
             fetchMethod = 'PATCH';
             msgComment = "수정";
         } else {
-            console.log("도시 추가!");
             fetchMethod = 'POST';
             msgComment = "추가";
+            if(!cityImage) {
+                alert("썸네일을 업로드 해주세요.");
+                return false;
+            }
         }
         // console.log(JSON.stringify(inData));
 
@@ -178,7 +176,7 @@ sltManageCountry.addEventListener("change", () => {
                 // "Content-Type": "application/json"
             }
         }).then(response => {
-            const msg = (response.ok) ? "도시 "+ msgComment + "완료!" : "도시" +  msgComment +"실패!";
+            const msg = (response.ok) ? "도시 "+ msgComment + "완료" : "도시" +  msgComment +"실패";
             alert(msg);
 
             // 페이지 새로고침(도시 목록 조회)
@@ -190,7 +188,6 @@ sltManageCountry.addEventListener("change", () => {
         });
     });
 }
-
 
 <!-- 도시 삭제 API 요청-->
 // {
@@ -241,17 +238,16 @@ function deleteCity(targetCountry, targetCityId) {
         return false;
     }
 
-    const inData = {
-        country: targetCountry,
-        cityId: targetCityId
-    }
+    let inData = new FormData();
+    inData.append("id", targetCityId);
+    inData.append("country", targetCountry);
 
     const url = '/api/admin/management/city';
     fetch(url, {
         method: "DELETE",
-        body: JSON.stringify(inData),
+        body: inData,
         headers: {
-            "Content-Type": "application/json"
+            // "Content-Type": "application/json"
         }
     }).then(response => {
         if (!response.ok) {

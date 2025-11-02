@@ -127,8 +127,8 @@ function getCityList(countryVal) {
 
         for(let i=0; i<jsonData.length; i++) {
             const option = document.createElement('option');
-            option.innerText = jsonData[i].name;
-            option.value = jsonData[i].name;
+            option.innerText = jsonData[i].korName;
+            option.value = jsonData[i].engName;
             sltCity.append(option);
         }
 

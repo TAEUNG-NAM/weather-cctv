@@ -29,19 +29,15 @@
                             <div class="d-flex flex-wrap justify-content-center">
                                 <h5 class="m-0 font-weight-bold text-primary">도시 목록</h5>
                                 <select class="admin-select mx-1 float-lg-start py-0" id="slt-manage-country">
-                                    <option value="country">국가</option>
                                     <option value="japan">일본</option>
-                                    <option>필리핀</option>
-                                    <option>네덜란드</option>
-                                    <option>나이지리아</option>
-                                    <option>사우디아라비아</option>
+                                    <option value="macau">마카오</option>
                                 </select>
                             </div>
                             <button type="button"
                                     class="btn btn-success btn-sm"
                                     id="addCityBtn"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#city-manage-modal" disabled>도시 추가
+                                    data-bs-target="#city-manage-modal">도시 추가
                             </button>
                         </div>
                         <div class="card-body">
@@ -49,7 +45,7 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr style="text-align: center;">
-                                        <th>나라</th>
+                                        <th>국가</th>
                                         <th>도시</th>
                                         <th>이미지</th>
                                         <th style="width: 6%">숨김</th>
@@ -106,7 +102,7 @@
 
                     <!-- 이미지 입력 -->
                     <div class="mb-3">
-                        <label class="form-label">이미지 용량 10MB 이하</label>
+                        <label class="form-label">이미지 용량 5MB 이하</label>
 
                         <div>
                             <input type="file"
