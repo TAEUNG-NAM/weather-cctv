@@ -35,10 +35,8 @@ addRowBtn.addEventListener("click", () => {
     tableBody.appendChild(tr);
 });
 
-let originalData = [];
-
-
 // 도시별 CCTV 데이터 가져오기
+let originalData = [];
 function getCctvData(cityName) {
     if(cityName === "total") {
         return;
@@ -111,7 +109,6 @@ saveCctvDataBtn.addEventListener('click', function (event) {
     event.preventDefault();
 
     const updatedData = [];
-    // console.log(originalData);
     // 모든 행의 데이터 수집
     const rows = document.querySelectorAll('#data-table-body tr');
     rows.forEach((row, index) => {
@@ -124,9 +121,10 @@ saveCctvDataBtn.addEventListener('click', function (event) {
         // 변경된 데이터만 수집
         let tempRowData = { ...rowData };
         let tempOriginalData = { ...originalData[index] };
-        delete tempRowData.id;
-        delete tempOriginalData.id;
-        if (JSON.stringify(tempRowData) !== JSON.stringify(tempOriginalData)) {
+        // tempOriginalData.city = tempOriginalData.city.engName;
+
+        if ((tempRowData.cctvSrc !== tempOriginalData.cctvSrc) || (tempRowData.delYn !== tempOriginalData.delYn) ||
+            (tempRowData.name !== tempOriginalData.name) || (tempRowData.mapSrc !== tempOriginalData.mapSrc)) {
             rowData["id"] = row.dataset.id;
             updatedData.push(rowData);
         }
@@ -134,12 +132,12 @@ saveCctvDataBtn.addEventListener('click', function (event) {
     });
 
     if (updatedData.length === 0) {
-        alert("No changes detected.");
+        alert("수정된 내용이 없습니다.");
         return;
     }
 
     const selectedCity = document.querySelector("#slt-city").value;
-    // console.log(JSON.stringify(updatedData));
+    console.log(JSON.stringify(updatedData));
     // 서버로 수정된 데이터 전송
     fetch('/api/admin/cctv-data', {
         method: 'POST',
@@ -147,16 +145,21 @@ saveCctvDataBtn.addEventListener('click', function (event) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(updatedData),
+    }).then(response => {
+        if(!response.ok) {
+            return response.json().then(errorData => {
+                console.log(errorData);
+                throw new Error(errorData.message || '알 수 없는 에러 발생');
+            });
+        }
+        return response.json();
+    }).then(result => {
+        alert("저장 완료");
+        console.log(result);
+        getCctvData(selectedCity); // 데이터 새로 고침
+    }).catch(err => {
+        alert("에러 : " + err.message);
     })
-        .then(response => response.json())
-        .then(result => {
-            alert("저장 완료");
-
-            getCctvData(selectedCity); // 데이터 새로 고침
-        })
-        .catch(error => {
-            console.error("Error updating data:", error);
-        });
 });
 
 /**
