@@ -1,53 +1,32 @@
 package live.narcy.weather.admin.controller;
 
-import live.narcy.weather.city.dto.AreaDTO;
-import live.narcy.weather.city.entity.Area;
-import live.narcy.weather.city.entity.City;
+import live.narcy.weather.city.dto.AreaDto;
+import live.narcy.weather.city.dto.CityDto;
 import live.narcy.weather.city.service.AreaService;
 import live.narcy.weather.city.service.CityService;
-import live.narcy.weather.views.dto.MonthlyViewCountInterface;
-import live.narcy.weather.views.dto.YearlyCountryViewRatioInterface;
+import live.narcy.weather.views.dto.MonthlyViewCount;
+import live.narcy.weather.views.dto.YearlyCountryViewRatio;
 import live.narcy.weather.views.service.ViewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 @Slf4j
-public class AreaManagementController {
+@RequestMapping("/api/")
+public class AreaAdminApiController {
 
     private final ViewService viewService;
     private final CityService cityService;
     private final AreaService areaService;
 //    private final CountryRepository countryRepository;    // 추후 생성 필요!
-
-    @GetMapping("/admin/chart")
-    public String adminChartPage(Model model) {
-
-        LocalDate now = LocalDate.now();
-        int thisYear = now.getYear();
-        List<Integer> years = new ArrayList<>();
-
-        for(int i = thisYear; i > thisYear-10; i--) {
-            years.add(i);
-        }
-
-        model.addAttribute("years", years);
-        return "contents/areaManagement";
-    }
-
 
     /**
      * 선택된 (Year, Country, City)의 조회수 조회(AreaChart)
@@ -56,8 +35,7 @@ public class AreaManagementController {
      * @param city
      * @return
      */
-    @ResponseBody
-    @GetMapping("/api/admin/area-chart/views")
+    @GetMapping("admin/area-chart/views")
     public ResponseEntity<?> getCityViewsData(@RequestParam(name = "year") String year,
                                               @RequestParam(name = "country") String country,
                                               @RequestParam(name = "city") String city) {
@@ -69,9 +47,9 @@ public class AreaManagementController {
         List<String> labels = new ArrayList<>();
         List<Long> values = new ArrayList<>();
 
-        List<MonthlyViewCountInterface> viewCountList = viewService.getViewsCount(year, country, city);
+        List<MonthlyViewCount> viewCountList = viewService.getViewsCount(year, country, city);
 
-        for(MonthlyViewCountInterface c : viewCountList) {
+        for(MonthlyViewCount c : viewCountList) {
             labels.add(c.getMonth() + "월");
             values.add(c.getViewCount());
         }
@@ -88,8 +66,7 @@ public class AreaManagementController {
      * @param country
      * @return
      */
-    @ResponseBody
-    @GetMapping("/api/admin/donut-chart/views")
+    @GetMapping("admin/donut-chart/views")
     public ResponseEntity<?> getCityViewsDonutData(@RequestParam(name = "year") String year,
                                               @RequestParam(name = "country") String country) {
 
@@ -100,9 +77,9 @@ public class AreaManagementController {
         List<String> labels = new ArrayList<>();
         List<Long> values = new ArrayList<>();
 
-        List<YearlyCountryViewRatioInterface> yearlyCountryViewList = viewService.getViewsRatio(year, country);
+        List<YearlyCountryViewRatio> yearlyCountryViewList = viewService.getViewsRatio(year, country);
 
-        for(YearlyCountryViewRatioInterface ratio : yearlyCountryViewList) {
+        for(YearlyCountryViewRatio ratio : yearlyCountryViewList) {
             labels.add(ratio.getCity());
             values.add(ratio.getViewCount());
             log.info("city = {}, views = {}", ratio.getCity(), ratio.getViewCount());
@@ -118,52 +95,45 @@ public class AreaManagementController {
      * AreaChart 셀렉트(City) 목록 조회
      * @return
      */
-    @GetMapping("/api/admin/area-chart/city-list")
+    @GetMapping("admin/area-chart/city-list")
     public ResponseEntity<?> getCityList(@RequestParam(name = "country", required = false) String countryName) {
 
-        // Country에 해당하는 city 조회
-        List<City> cities = cityService.getCityAllList(countryName);
+        // Country에 해당하는 City 조회
+        List<CityDto> cities = cityService.getAllCities(countryName);
 
-        return cities != null ?
-                ResponseEntity.ok(cities) :
-                ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok(cities);
     }
 
     /**
      * 도시별 Area-CCTV 정보 조회
      * @return ResponseEntity
      */
-    @GetMapping("/api/admin/cctv-data")
+    @GetMapping("admin/cctv-data")
     public ResponseEntity<?> getCctvData(@RequestParam(name = "city", required = false) String cityName) {
-        List<Area> cctvData = new ArrayList<>();
+        List<AreaDto> cctvData = new ArrayList<>();
         if(cityName != null && !"0".equals(cityName)) {
             cctvData = areaService.getCctvData(cityName);
         }
 
-        for(Area a : cctvData) {
-            log.info("Area = {}", a);
+        for(AreaDto dto : cctvData) {
+            log.info("Area = {}", dto);
         }
 
         return ResponseEntity.ok(cctvData);
     }
 
     /**
-     * Area-CCTV 정보 수정
+     * Area-CCTV 정보 수정&생성
      * @param dtoList
      * @return ResponseEntity
      */
-    @PostMapping("/api/admin/cctv-data")
-    public ResponseEntity<?> updateCctvData(@RequestBody List<AreaDTO> dtoList) {
-
-        for(AreaDTO area : dtoList) {
+    @PostMapping("admin/cctv-data")
+    public ResponseEntity<?> updateCctvData(@RequestBody List<AreaDto> dtoList) {
+        for(AreaDto area : dtoList) {
             log.info("area = {}", area);
         }
-
-        List<AreaDTO> updatedList = areaService.updateCctvData(dtoList);
-
-        return updatedList != null && dtoList.size() == updatedList.size() ?
-                ResponseEntity.ok(updatedList) :
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(updatedList);
+        areaService.updateCctvData(dtoList);
+        return ResponseEntity.ok(Map.of("message", "수정 완료"));
     }
 
     /**
@@ -171,12 +141,11 @@ public class AreaManagementController {
      * @param cctvId
      * @return ResponseEntity
      */
-    @DeleteMapping("/api/admin/cctv-data")
+    @DeleteMapping("admin/cctv-data")
     public ResponseEntity<?> deleteCctvData(@RequestParam(name = "cctvId") Long cctvId) {
 
         log.info("cctvID = {}", cctvId);
         areaService.deleteCctvData(cctvId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(Map.of("message", "삭제 완료"));
     }
-
 }

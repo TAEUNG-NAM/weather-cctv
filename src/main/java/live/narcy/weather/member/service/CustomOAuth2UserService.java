@@ -45,13 +45,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // 계정 정보가 DB에 없을 때
         if(findMember.isEmpty()) {
-            MemberDTO memberDTO = MemberDTO.builder()
+            MemberDto memberDTO = MemberDto.builder()
                     .email(oAuth2Response.getEmail())
                     .password("oauth2pw")
                     .role("ROLE_USER")
                     .build();
 
-            Member newMember = MemberDTO.toMember(memberDTO, new BCryptPasswordEncoder());
+            Member newMember = MemberDto.toMember(memberDTO, new BCryptPasswordEncoder());
 
             memberRepository.save(newMember);
             log.info("회원가입 = {}", memberDTO);

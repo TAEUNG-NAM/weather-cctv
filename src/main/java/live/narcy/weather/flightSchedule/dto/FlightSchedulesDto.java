@@ -9,7 +9,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @ToString
-public class FlightSchedulesDTO {
+public class FlightSchedulesDto {
     @JsonProperty("AGENT_CD")
     private String agentCd;
     @JsonProperty("AIRLINE_ENGLISH")
@@ -66,7 +66,7 @@ public class FlightSchedulesDTO {
     private String internationalSun;
 
     @Builder
-    public FlightSchedulesDTO(String internationalSun, String internationalSat, String internationalFri, String internationalThu, String internationalWed, String internationalTue, String internationalMon, String internationalTime, String internationalNum, String internationalEddt, String internationalStdt, String airlineKorean, String city, String airlineEnglish, String airport, String internationalIdx, String airlineHomepageUrl) {
+    public FlightSchedulesDto(String internationalSun, String internationalSat, String internationalFri, String internationalThu, String internationalWed, String internationalTue, String internationalMon, String internationalTime, String internationalNum, String internationalEddt, String internationalStdt, String airlineKorean, String city, String airlineEnglish, String airport, String internationalIdx, String airlineHomepageUrl) {
         this.internationalSun = internationalSun;
         this.internationalSat = internationalSat;
         this.internationalFri = internationalFri;
@@ -89,7 +89,7 @@ public class FlightSchedulesDTO {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof FlightSchedulesDTO that)) return false;
+        if (!(object instanceof FlightSchedulesDto that)) return false;
         return Objects.equals(airlineKorean, that.airlineKorean) && Objects.equals(airport, that.airport) && Objects.equals(internationalAirportDome, that.internationalAirportDome) && Objects.equals(internationalAirportInte, that.internationalAirportInte) && Objects.equals(internationalStdt, that.internationalStdt) && Objects.equals(internationalEddt, that.internationalEddt) && Objects.equals(internationalNum, that.internationalNum) && Objects.equals(internationalTime, that.internationalTime) && Objects.equals(internationalMon, that.internationalMon) && Objects.equals(internationalTue, that.internationalTue) && Objects.equals(internationalWed, that.internationalWed) && Objects.equals(internationalThu, that.internationalThu) && Objects.equals(internationalFri, that.internationalFri) && Objects.equals(internationalSat, that.internationalSat) && Objects.equals(internationalSun, that.internationalSun);
     }
 

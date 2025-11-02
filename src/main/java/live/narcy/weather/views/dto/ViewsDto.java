@@ -6,13 +6,13 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class ViewsDTO {
+public class ViewsDto {
     private Long cityId;
     private Long memberId;
     private LocalDateTime viewedAt;
 
     @Builder
-    public ViewsDTO(Long cityId, Long memberId, LocalDateTime viewedAt) {
+    public ViewsDto(Long cityId, Long memberId, LocalDateTime viewedAt) {
         this.cityId = cityId;
         this.memberId = memberId;
         this.viewedAt = viewedAt;

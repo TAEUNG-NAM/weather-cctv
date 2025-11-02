@@ -133,15 +133,6 @@ public class WeatherApiService {
                     .add(weatherDetailsDTO);
         }
 
-//        for (Map.Entry<String, List<WeatherDetailsDTO>> entry : weatherDetails.entrySet()) {
-//            System.out.println("Date = " + entry.getKey());
-//            for (WeatherDetailsDTO dto : entry.getValue()) {
-//                System.out.println("DTO = " + dto);
-//            }
-//        }
-
-//        System.out.println("updatedJson = " + objectMapper.writeValueAsString(listNode));
-
         return weatherDetails;
     }
 

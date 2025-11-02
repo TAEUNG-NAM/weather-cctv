@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import live.narcy.weather.flightSchedule.dto.AvailableAirlineDTO;
-import live.narcy.weather.flightSchedule.dto.AvailableDestinationsDTO;
-import live.narcy.weather.flightSchedule.dto.FlightSchedulesDTO;
+import live.narcy.weather.flightSchedule.dto.AvailableAirlineDto;
+import live.narcy.weather.flightSchedule.dto.AvailableDestinationsDto;
+import live.narcy.weather.flightSchedule.dto.FlightSchedulesDto;
 import live.narcy.weather.flightSchedule.dto.IncheonAvailableDestinations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,16 +22,15 @@ public class ScheduleService {
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
 
-
     /**
      * 출발지 체크 후 도착지 목록 조회
      * @param param
      * @return
      * @throws JsonProcessingException
      */
-    public List<AvailableDestinationsDTO> getDestinations(String param) throws JsonProcessingException {
+    public List<AvailableDestinationsDto> getDestinations(String param) throws JsonProcessingException {
         JsonNode jsonNode = objectMapper.readTree(param);
-        List<AvailableDestinationsDTO> availableDestinationsList;
+        List<AvailableDestinationsDto> availableDestinationsList;
 
         String pAirport = jsonNode.get("pAirport").asText();
         if("ICN".equals(pAirport)) {
@@ -50,7 +48,7 @@ public class ScheduleService {
      * @return
      * @throws JsonProcessingException
      */
-    public List<AvailableDestinationsDTO> getAvailableDestinations(JsonNode jsonNode) throws JsonProcessingException {
+    public List<AvailableDestinationsDto> getAvailableDestinations(JsonNode jsonNode) throws JsonProcessingException {
         String pSelType = jsonNode.get("pSelType").asText();
         String pFindDate = jsonNode.get("pFindDate").asText();
         String pAirport = jsonNode.get("pAirport").asText();
@@ -74,7 +72,7 @@ public class ScheduleService {
 
         String result = restTemplate.getForObject(availableDestinationsURL, String.class);
         JsonNode jsonNodeData = objectMapper.readTree(result).get("data");
-        List<AvailableDestinationsDTO> availableDestinationsList = objectMapper.convertValue(jsonNodeData, new TypeReference<List<AvailableDestinationsDTO>>() {});
+        List<AvailableDestinationsDto> availableDestinationsList = objectMapper.convertValue(jsonNodeData, new TypeReference<List<AvailableDestinationsDto>>() {});
 
         return availableDestinationsList;
     }
@@ -83,12 +81,12 @@ public class ScheduleService {
      * 인천 공항에서 갈 수 있는 도착지 조회
      * @return
      */
-    public List<AvailableDestinationsDTO> getIncheonAvailableDestinations() {
+    public List<AvailableDestinationsDto> getIncheonAvailableDestinations() {
         IncheonAvailableDestinations[] destinations = IncheonAvailableDestinations.values();
-        List<AvailableDestinationsDTO> availableDestinationsList = new ArrayList<>();
+        List<AvailableDestinationsDto> availableDestinationsList = new ArrayList<>();
 
         for(IncheonAvailableDestinations destination : destinations) {
-            AvailableDestinationsDTO destinationsDTO = AvailableDestinationsDTO.builder()
+            AvailableDestinationsDto destinationsDTO = AvailableDestinationsDto.builder()
                     .cityCode(destination.name())
                     .cityKor(destination.getDestination())
                     .cityEng(destination.name())
@@ -106,7 +104,7 @@ public class ScheduleService {
      * @return
      * @throws JsonProcessingException
      */
-    public List<AvailableAirlineDTO> getAvailableAirlines(String param) throws JsonProcessingException {
+    public List<AvailableAirlineDto> getAvailableAirlines(String param) throws JsonProcessingException {
         JsonNode jsonNode = objectMapper.readTree(param);
 
         String pSelType = jsonNode.get("pSelType").asText();
@@ -132,7 +130,7 @@ public class ScheduleService {
 
         String result = restTemplate.getForObject(availableAirlinesURL, String.class);
         JsonNode jsonNodeData = objectMapper.readTree(result).get("data");
-        List<AvailableAirlineDTO> availableAirlinesList = objectMapper.convertValue(jsonNodeData, new TypeReference<List<AvailableAirlineDTO>>() {});
+        List<AvailableAirlineDto> availableAirlinesList = objectMapper.convertValue(jsonNodeData, new TypeReference<List<AvailableAirlineDto>>() {});
 
         return availableAirlinesList;
     }
@@ -144,9 +142,9 @@ public class ScheduleService {
      * @return
      * @throws JsonProcessingException
      */
-    public List<FlightSchedulesDTO> getSchedules(String param) throws JsonProcessingException {
+    public List<FlightSchedulesDto> getSchedules(String param) throws JsonProcessingException {
         JsonNode jsonNode = objectMapper.readTree(param);
-        List<FlightSchedulesDTO> flightSchedulesList;
+        List<FlightSchedulesDto> flightSchedulesList;
 
         String pAirport = jsonNode.get("pAirport").asText();
         if("ICN".equals(pAirport)) {
@@ -165,7 +163,7 @@ public class ScheduleService {
      * @return
      * @throws JsonProcessingException
      */
-    public List<FlightSchedulesDTO> getFlightSchedules(JsonNode jsonNode) throws JsonProcessingException {
+    public List<FlightSchedulesDto> getFlightSchedules(JsonNode jsonNode) throws JsonProcessingException {
 
         String pSelType = jsonNode.get("pSelType").asText();
         String pFindDate = jsonNode.get("pFindDate").asText();
@@ -197,7 +195,7 @@ public class ScheduleService {
 
         String result = restTemplate.getForObject(flightSchedulesURL, String.class);
         JsonNode jsonNodeData = objectMapper.readTree(result).get("data").get("outList");
-        List<FlightSchedulesDTO> flightSchedulesList = objectMapper.convertValue(jsonNodeData, new TypeReference<List<FlightSchedulesDTO>>() {});
+        List<FlightSchedulesDto> flightSchedulesList = objectMapper.convertValue(jsonNodeData, new TypeReference<List<FlightSchedulesDto>>() {});
 
         return combineScheduleDays(flightSchedulesList);
     }
@@ -209,7 +207,7 @@ public class ScheduleService {
      * @return
      * @throws JsonProcessingException
      */
-    public List<FlightSchedulesDTO> getIncheonFlightSchedules(JsonNode jsonNode) throws JsonProcessingException {
+    public List<FlightSchedulesDto> getIncheonFlightSchedules(JsonNode jsonNode) throws JsonProcessingException {
         String airportCode = jsonNode.get("pAirline").asText();
 
         String flightSchedulesURL = UriComponentsBuilder
@@ -220,9 +218,9 @@ public class ScheduleService {
 
         String result = restTemplate.getForObject(flightSchedulesURL, String.class);
         JsonNode jsonNodeData = objectMapper.readTree(result).get("scheduleList");
-        List<FlightSchedulesDTO> flightSchedulesList = new ArrayList<>();
+        List<FlightSchedulesDto> flightSchedulesList = new ArrayList<>();
         jsonNodeData.forEach(json -> {
-            FlightSchedulesDTO schedule = FlightSchedulesDTO
+            FlightSchedulesDto schedule = FlightSchedulesDto
                     .builder()
                     .airlineKorean(json.get("airlineNameKo").asText())
                     .airlineEnglish(json.get("airlineNameEn").asText())
@@ -255,11 +253,11 @@ public class ScheduleService {
      * @param flightSchedulesList
      * @return
      */
-    public List<FlightSchedulesDTO> combineScheduleDays(List<FlightSchedulesDTO> flightSchedulesList) {
+    public List<FlightSchedulesDto> combineScheduleDays(List<FlightSchedulesDto> flightSchedulesList) {
 
         for(int i = 0; i < flightSchedulesList.size()-1; i++) {
-            FlightSchedulesDTO nowSchedule = flightSchedulesList.get(i);
-            FlightSchedulesDTO nextSchedule = flightSchedulesList.get(i+1);
+            FlightSchedulesDto nowSchedule = flightSchedulesList.get(i);
+            FlightSchedulesDto nextSchedule = flightSchedulesList.get(i+1);
 
             // 항공사,편명,출발지,도착지,출발시간,도착시간,운항기간 같으면 운항요일 합치기
             if(Objects.equals(nowSchedule.getAirlineKorean(), nextSchedule.getAirlineKorean())

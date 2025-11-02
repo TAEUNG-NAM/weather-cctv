@@ -8,19 +8,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Setter
 @ToString
 @NoArgsConstructor
-public class MemberDTO {
+public class MemberDto {
     private String email;
     private String password;
     private String role = "ROLE_USER";
 
     @Builder
-    public MemberDTO(String email, String password, String role) {
+    public MemberDto(String email, String password, String role) {
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    public static Member toMember(MemberDTO memberDTO, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public static Member toMember(MemberDto memberDTO, BCryptPasswordEncoder bCryptPasswordEncoder) {
         return Member.builder()
                 .email(memberDTO.email)
                 .password(bCryptPasswordEncoder.encode(memberDTO.getPassword()))

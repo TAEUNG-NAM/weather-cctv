@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
-public class AvailableDestinationsDTO {
+public class AvailableDestinationsDto {
     @JsonProperty("CITY_CODE")
     private String cityCode;
 
@@ -20,7 +20,7 @@ public class AvailableDestinationsDTO {
     private String cityKor;
 
     @Builder
-    public AvailableDestinationsDTO(String cityCode, String cityEng, String cityKor) {
+    public AvailableDestinationsDto(String cityCode, String cityEng, String cityKor) {
         this.cityCode = cityCode;
         this.cityEng = cityEng;
         this.cityKor = cityKor;

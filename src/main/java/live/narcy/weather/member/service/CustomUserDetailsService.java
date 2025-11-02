@@ -25,6 +25,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         Optional<Member> memberData = memberRepository.findByEmail(email);
 
-        return memberData.map(CustomUserDetails::new).orElse(null);
+        return memberData.map(CustomUserDetails::new).orElseGet(() -> null);
     }
 }

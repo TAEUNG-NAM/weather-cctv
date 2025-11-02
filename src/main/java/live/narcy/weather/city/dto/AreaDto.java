@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @ToString
-public class AreaDTO {
+public class AreaDto {
 
     private Long id;
     private String name;
@@ -18,7 +18,7 @@ public class AreaDTO {
     private String delYn;
 
     @Builder
-    public AreaDTO(Long id, String name, String cctvSrc, String mapSrc, String city, String delYn) {
+    public AreaDto(Long id, String name, String cctvSrc, String mapSrc, String city, String delYn) {
         this.id = id;
         this.name = name;
         this.cctvSrc = cctvSrc;
@@ -27,13 +27,14 @@ public class AreaDTO {
         this.delYn = delYn;
     }
 
-    public Area toArea(City city) {
-        return Area.builder()
-                .name(this.getName())
-                .cctvSrc(this.getCctvSrc())
-                .mapSrc(this.getMapSrc())
-                .city(city)
-                .delYn(this.getDelYn())
+    public static AreaDto from(Area area) {
+        return AreaDto.builder()
+                .id(area.getId())
+                .name(area.getName())
+                .cctvSrc(area.getCctvSrc())
+                .mapSrc(area.getMapSrc())
+                .city(area.getCity().getName())
+                .delYn(area.getDelYn())
                 .build();
 
     }
