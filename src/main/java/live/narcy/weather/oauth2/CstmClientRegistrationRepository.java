@@ -1,6 +1,7 @@
 package live.narcy.weather.oauth2;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
@@ -16,6 +17,7 @@ public class CstmClientRegistrationRepository {
 
     private final CstmClientRegistration cstmClientRegistration;
 
+    @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
 
         // InMemory 타입의 저장소(JDBC-DB 타입도 존재)

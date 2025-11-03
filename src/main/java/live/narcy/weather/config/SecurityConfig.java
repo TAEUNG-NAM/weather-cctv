@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
@@ -22,9 +23,11 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final CstmClientRegistrationRepository  clientRegistrationRepository;
-    private final CustomOAuth2AuthorizedClientService customOAuth2AuthorizedClientService;
-    private final JdbcTemplate jdbcTemplate;
+    private final ClientRegistrationRepository clientRegistrationRepository;
+
+    // 인증서버 토큰을 저장하지 않는 방식으로 변경하여 이용X
+/*    private final CustomOAuth2AuthorizedClientService customOAuth2AuthorizedClientService;
+    private final JdbcTemplate jdbcTemplate;*/
 
     // 정적 자원(html, css, js) SecurityFilter 검증 제외
     @Bean
@@ -52,7 +55,11 @@ public class SecurityConfig {
         // 접근 권한 설정
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login/**", "/join", "/joinProc", "/oauth2/**", "/thumbnail/**", "/view/**", "/cctvLogin.html", "/naver50fdb02ec8ff42fe2a36a3af8474a83a.html", "/flight-schedule", "/api/search/**").permitAll()
+                        .requestMatchers(
+                                "/", "/login/**", "/join", "/joinProc", "/oauth2/**", "/thumbnail/**", "/view/**",
+                                "/cctvLogin.html", "/naver50fdb02ec8ff42fe2a36a3af8474a83a.html", "/*.png", "/*.jpg",
+                                "/*.ico", "/flight-schedule", "/api/search/**"
+                        ).permitAll()
                         .requestMatchers("/api/admin/**", "/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
@@ -72,8 +79,8 @@ public class SecurityConfig {
         http
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login")
-                        .clientRegistrationRepository(clientRegistrationRepository.clientRegistrationRepository())  // class 방식을 통한 OAuth2 설정
-                        .authorizedClientService(customOAuth2AuthorizedClientService.oAuth2AuthorizedClientService(jdbcTemplate, clientRegistrationRepository.clientRegistrationRepository()))  // 인증 서버에서 발급 받은 Access 토큰 저장 설정
+                        .clientRegistrationRepository(clientRegistrationRepository)  // class 방식을 통한 OAuth2 설정
+//                        .authorizedClientService(customOAuth2AuthorizedClientService.oAuth2AuthorizedClientService(jdbcTemplate, clientRegistrationRepository))  // 인증 서버에서 발급 받은 Access 토큰 저장 설정
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig  // User정보 받을 EndPoint설정
                                 .userService(customOAuth2UserService)));
 
