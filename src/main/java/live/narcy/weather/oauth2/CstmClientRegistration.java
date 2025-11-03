@@ -1,5 +1,6 @@
 package live.narcy.weather.oauth2;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -12,18 +13,28 @@ import org.springframework.stereotype.Component;
 @Component
 public class CstmClientRegistration {
 
+    @Value("${oauth2.naver.client.id}")
+    private String naverClientId;
+    @Value("${oauth2.naver.client.secret}")
+    private String naverClientSecret;
+    @Value("${oauth2.kakao.client.id}")
+    private String kakaoClientId;
+    @Value("${oauth2.kakao.client.secret}")
+    private String kakaoClientSecret;
+
+
     public ClientRegistration naverClientRegistration() {
         return ClientRegistration.withRegistrationId("naver")
-                .clientId("nRd5ijy1uU8vPzQI3UvE")                                 // ec2
-                .clientSecret("VX09md7M0J")                                       // ec2
-                .redirectUri("http://narcy.kro.kr:80/login/oauth2/code/naver")    // ec2
+                .clientId(naverClientId)                                            // prod
+                .clientSecret(naverClientSecret)                                    // prod
+                .redirectUri("http://narcy.kro.kr:80/login/oauth2/code/naver")      // prod
 
-//                .clientId("iOAbkXpIFq3MU883yGyO")                                   // S10e
-//                .clientSecret("")                                         // S10e
-//                .redirectUri("http://narcy-dev.kro.kr:80/login/oauth2/code/naver")  // S10e
+//                .clientId("iOAbkXpIFq3MU883yGyO")                                   // dev
+//                .clientSecret("")                                                   // dev
+//                .redirectUri("http://narcy-dev.kro.kr:80/login/oauth2/code/naver")  // dev
 
 //                .clientId("8QXlYYdF49eekVEZr8ir")                                   // 로컬
-//                .clientSecret("")                                         // 로컬
+//                .clientSecret("ksW4vGY6oi")                                         // 로컬
 //                .redirectUri("http://localhost:8080/login/oauth2/code/naver")       // 로컬
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .scope("name", "email")
@@ -36,8 +47,8 @@ public class CstmClientRegistration {
 
     public ClientRegistration kakaoClientRegistration() {
         return ClientRegistration.withRegistrationId("kakao")
-                .clientId("52446f9d0570194b664c94bd0d18757a")
-                .clientSecret("PGelh84kG2WOV8eYDTGMQhO1uMhgNVtC")
+                .clientId(kakaoClientId)
+                .clientSecret(kakaoClientSecret)
                 .redirectUri("http://narcy.kro.kr:80/login/oauth2/code/kakao")
 //                .redirectUri("http://localhost:8080/login/oauth2/code/kakao")
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)

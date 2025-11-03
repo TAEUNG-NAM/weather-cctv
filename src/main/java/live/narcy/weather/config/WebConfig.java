@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
     private String uploadPath;
     @Value("${file.access.path}")
     private String accessPath;
-    private LoggingInterceptor loggingInterceptor;
+    private final LoggingInterceptor loggingInterceptor;
 
     public WebConfig(LoggingInterceptor loggingInterceptor) {
         this.loggingInterceptor = loggingInterceptor;
@@ -36,11 +36,15 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loggingInterceptor)
                 .addPathPatterns("/**")             // 모든 요청에 적용
-                .excludePathPatterns("/assets/**")  // 제외할 요청들
+                // 로깅 제외할 요청들
+                .excludePathPatterns("/assets/**")
                 .excludePathPatterns("/vendors/**")
                 .excludePathPatterns("/js/**")
                 .excludePathPatterns("/error/**")
                 .excludePathPatterns("/thumbnail/**")
+                .excludePathPatterns("/*.png")
+                .excludePathPatterns("/*.jpg")
+                .excludePathPatterns("/*.ico")
                 .excludePathPatterns("/cctvLogin.html");
     }
 }
