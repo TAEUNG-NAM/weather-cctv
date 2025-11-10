@@ -17,25 +17,21 @@ public class CstmClientRegistration {
     private String naverClientId;
     @Value("${oauth2.naver.client.secret}")
     private String naverClientSecret;
+    @Value("${oauth2.naver.redirect.uri}")
+    private String naverRedirectUri;
     @Value("${oauth2.kakao.client.id}")
     private String kakaoClientId;
     @Value("${oauth2.kakao.client.secret}")
     private String kakaoClientSecret;
+    @Value("${oauth2.kakao.redirect.uri}")
+    private String kakaoRedirectUri;
 
 
     public ClientRegistration naverClientRegistration() {
         return ClientRegistration.withRegistrationId("naver")
-                .clientId(naverClientId)                                            // prod
-                .clientSecret(naverClientSecret)                                    // prod
-                .redirectUri("http://narcy.kro.kr:80/login/oauth2/code/naver")      // prod
-
-//                .clientId("iOAbkXpIFq3MU883yGyO")                                   // dev
-//                .clientSecret("")                                                   // dev
-//                .redirectUri("http://narcy-dev.kro.kr:80/login/oauth2/code/naver")  // dev
-
-//                .clientId("8QXlYYdF49eekVEZr8ir")                                   // 로컬
-//                .clientSecret("ksW4vGY6oi")                                         // 로컬
-//                .redirectUri("http://localhost:8080/login/oauth2/code/naver")       // 로컬
+                .clientId(naverClientId)            // prod
+                .clientSecret(naverClientSecret)    // prod
+                .redirectUri(naverRedirectUri)      // prod
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .scope("name", "email")
                 .authorizationUri("https://nid.naver.com/oauth2.0/authorize")
@@ -49,7 +45,7 @@ public class CstmClientRegistration {
         return ClientRegistration.withRegistrationId("kakao")
                 .clientId(kakaoClientId)
                 .clientSecret(kakaoClientSecret)
-                .redirectUri("http://narcy.kro.kr:80/login/oauth2/code/kakao")
+                .redirectUri(kakaoRedirectUri)
 //                .redirectUri("http://localhost:8080/login/oauth2/code/kakao")
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .scope("profile_nickname", "account_email")
