@@ -55,5 +55,9 @@
 - AWS(  ~2025.06.30) - 프리티어 기간 만료
 ![infra1](https://github.com/user-attachments/assets/6c1bdec9-9c66-4033-a6e9-96a68b450550)
 
-- 스마트폰을 활용한 개인 서버(2025.06.30 ~ 현재)
+- 스마트폰을 활용한 개인 서버(2025.06.30 ~ 2025.10.31)
 ![infra2](https://github.com/user-attachments/assets/2ff6ce45-7528-4187-92bf-8746e651d71f)
+
+- Azure(2025.10.31 ~ 현재)
+![infra3](https://github.com/user-attachments/assets/f1917575-1bee-4b58-ba79-2387897e4f85)
+
