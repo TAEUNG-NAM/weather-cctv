@@ -103,7 +103,6 @@ public class CityService {
                 InputStream inputStream = thumbnail.getInputStream();
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream()
         ) {
-
             // 썸네일 생성
             Thumbnails.of(inputStream)
                     .outputQuality(0.95)

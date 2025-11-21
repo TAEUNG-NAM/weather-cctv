@@ -1,6 +1,8 @@
 package live.narcy.weather.views.entity;
 
 import jakarta.persistence.*;
+import live.narcy.weather.city.dto.AreaDto;
+import live.narcy.weather.city.entity.Area;
 import live.narcy.weather.city.entity.City;
 import live.narcy.weather.member.entity.Member;
 import lombok.AccessLevel;
@@ -39,5 +41,12 @@ public class Views {
     public Views(live.narcy.weather.city.entity.City city, Member member) {
         this.city = city;
         this.member = member;
+    }
+
+    public static Views from(City city, Member member) {
+        return Views.builder()
+                .city(city)
+                .member(member)
+                .build();
     }
 }
