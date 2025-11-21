@@ -13,6 +13,7 @@ public enum ErrorCode {
     NO_PERMISSION(HttpStatus.UNAUTHORIZED, "권한이 없습니다."),
     CITY_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 등록된 도시입니다."),
     MISMATCH_ID(HttpStatus.BAD_REQUEST, "ID 불일치"),
+    FAIL_JSON_PARSING(HttpStatus.BAD_REQUEST, "JSON 파싱 실패"),
     FAIL_CREATE_CITY(HttpStatus.BAD_REQUEST, "도시 등록/수정에 실패하였습니다.");
 
     private final HttpStatus httpStatus;

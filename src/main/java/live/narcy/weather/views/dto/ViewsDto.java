@@ -2,10 +2,14 @@ package live.narcy.weather.views.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class ViewsDto {
     private Long cityId;
     private Long memberId;

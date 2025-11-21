@@ -1,5 +1,6 @@
 package live.narcy.weather.city.controller;
 
+import io.jsonwebtoken.lang.Strings;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -72,14 +73,15 @@ public class CityController {
         if (authentication != null && authentication.getPrincipal() instanceof CustomOAuth2User) {  // Authentication을 통해 추출
             email = ((CustomOAuth2User) authentication.getPrincipal()).getEmail();
 
-            // 조회수 증가
-            viewService.increaseViewCount(email, city, false);
+            // 조회수 증가(회원)
+            viewService.recordViewHistory(email, city);
         } else {
             // 쿠키 검증 및 전처리
             Boolean cookieCheck = checkCookie(request, response, city);
-
-            // 조회수 증가
-            viewService.increaseViewCount(email, city, cookieCheck);
+            if (!cookieCheck && !Strings.hasText(email)) {
+                // 조회수 증가(비회원)
+                viewService.recordViewHistoryAnonymous(city);
+            }
         }
 
         return "contents/cities";
@@ -187,7 +189,7 @@ public class CityController {
                 ));
 
 //                log.info("Date = {}", weatherEntry.getKey());
-                log.info("Date = {}\t최저 온도 = {}\t최고 온도 = {}", weatherEntry.getKey(), minTemp, maxTemp);
+//                log.info("Date = {}\t최저 온도 = {}\t최고 온도 = {}", weatherEntry.getKey(), minTemp, maxTemp);
 
             }
 
