@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}"
+      layout:fragment="Content">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<body class="bg-light" data-bs-spy="scroll" data-bs-target="#navbar">
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+
+<!-- ============================================-->
+<!-- <section> begin ============================-->
+<div class="container py-9">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-12">
+            <!-- 이미지를 중앙에 배치하고 크기를 줄임 -->
+            <img src="https://cdn-icons-png.flaticon.com/512/2748/2748558.png"
+                 alt="No Results"
+                 class="no-results-img mb-4 mx-auto d-block"
+                 style="width: 40%;">
+            <!-- 아래 글들은 왼쪽 정렬 -->
+            <div class="text-center">
+                <h2 class="mb-2">요청하신 페이지를 찾을 수 없습니다</h2>
+                <p class="lead mb-3">
+                    존재하지 않는 주소를 입력하셨거나,
+                    요청하신 페이지에 접근이 불가능합니다.<br>
+                    입력하신 주소가 정확한지 다시 한번 확인해주세요.<br>
+                    이용에 불편을 드려 죄송합니다.
+                </p>
+                <a href="/" class="btn btn-dark">홈으로 이동</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===============================================-->
+<!--    End of Main Content-->
+<!-- ===============================================-->
+
+</body>
+
+
+</html>

@@ -58,7 +58,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/", "/login/**", "/join", "/joinProc", "/oauth2/**", "/thumbnail/**", "/view/**",
                                 "/cctvLogin.html", "/naver50fdb02ec8ff42fe2a36a3af8474a83a.html", "/*.png", "/*.jpg",
-                                "/*.ico", "/flight-schedule", "/api/search/**"
+                                "/*.ico", "/flight-schedule", "/api/search/**", "/templates/error/**"
                         ).permitAll()
                         .requestMatchers("/api/admin/**", "/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
