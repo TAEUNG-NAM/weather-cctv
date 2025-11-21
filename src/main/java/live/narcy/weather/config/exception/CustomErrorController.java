@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 
 /* 접근 예외 처리 */
-@Controller
+//@Controller
 @Slf4j
 public class CustomErrorController implements ErrorController {
 
